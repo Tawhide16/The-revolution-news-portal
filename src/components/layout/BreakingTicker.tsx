@@ -1,10 +1,26 @@
 import Link from "next/link";
 import { Zap } from "lucide-react";
-import { BREAKING_NEWS } from "@/data/mockNews";
+import { getDb } from "@/lib/store";
 
 export default function BreakingTicker() {
-  if (!BREAKING_NEWS.length) return null;
-  const current = BREAKING_NEWS[0];
+  const db = getDb();
+  const settings = db.settings;
+
+  if (!settings?.breakingEnabled) return null;
+
+  // Find breaking article or fallback to custom text
+  const breakingArticle = db.articles.find(
+    (a) => a.breaking && a.status === "PUBLISHED"
+  );
+
+  const headline =
+    settings.breakingCustomText ||
+    breakingArticle?.title ||
+    "Global leaders reach emergency climate accord after marathon negotiations in Geneva";
+
+  const targetUrl =
+    settings.breakingUrl ||
+    (breakingArticle ? `/article/${breakingArticle.slug}` : "#");
 
   return (
     <div className="bg-[#B80000] text-white py-2 px-4 text-sm font-medium">
@@ -21,15 +37,15 @@ export default function BreakingTicker() {
 
         <div className="flex-1 overflow-hidden truncate">
           <Link
-            href={`/article/${current.slug}`}
+            href={targetUrl}
             className="hover:underline font-serif text-white tracking-wide truncate block"
           >
-            {current.title}
+            {headline}
           </Link>
         </div>
 
         <div className="text-xs text-white/80 shrink-0 font-sans hidden md:block">
-          {current.timeAgo} &bull; {current.category}
+          Live Wire &bull; Editorial Alert
         </div>
       </div>
     </div>

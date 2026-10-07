@@ -3,15 +3,78 @@ import Image from "next/image";
 import { ChevronRight, TrendingUp } from "lucide-react";
 import { CATEGORY_BLOCKS, MOST_READ_ARTICLES } from "@/data/mockNews";
 import NewsletterForm from "./NewsletterForm";
+import { getDb } from "@/lib/store";
 
 export default function CategoryGridSection() {
+  const db = getDb();
+  const publishedArticles = db.articles.filter((a) => a.status === "PUBLISHED");
+
+  // Dynamic Most Read from store
+  const mostRead =
+    publishedArticles.length >= 3
+      ? [...publishedArticles]
+          .sort((a, b) => (b.views || 0) - (a.views || 0))
+          .slice(0, 5)
+          .map((a, i) => ({
+            rank: i + 1,
+            title: a.title,
+            slug: a.slug,
+            category: a.categoryName,
+            views: a.views || 0,
+          }))
+      : MOST_READ_ARTICLES;
+
+  // Dynamic or fallback Category Blocks
+  const categoriesToShow = db.categories.slice(0, 3);
+  const blocks = categoriesToShow.map((cat) => {
+    const catArticles = publishedArticles.filter((a) => a.categoryId === cat.id);
+    if (catArticles.length > 0) {
+      const lead = catArticles[0];
+      const items = catArticles.slice(1, 4).map((item) => ({
+        id: item.id,
+        title: item.title,
+        slug: item.slug,
+        timeAgo: item.publishedAt ? new Date(item.publishedAt).toLocaleDateString() : "Recent",
+      }));
+      return {
+        category: cat.name,
+        slug: cat.slug,
+        lead: {
+          id: lead.id,
+          title: lead.title,
+          slug: lead.slug,
+          summary: lead.summary,
+          coverImage: lead.coverImage,
+          timeAgo: lead.publishedAt ? new Date(lead.publishedAt).toLocaleDateString() : "Recent",
+        },
+        items: items.length > 0 ? items : (CATEGORY_BLOCKS.find(b => b.slug === cat.slug)?.items || []),
+      };
+    }
+    const fallback = CATEGORY_BLOCKS.find((b) => b.slug === cat.slug);
+    return (
+      fallback || {
+        category: cat.name,
+        slug: cat.slug,
+        lead: {
+          id: `lead-${cat.id}`,
+          title: `Latest coverage across ${cat.name}`,
+          slug: cat.slug,
+          summary: `In-depth analysis and breaking updates from our correspondents covering ${cat.name}.`,
+          coverImage: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=600&q=80",
+          timeAgo: "Today",
+        },
+        items: [],
+      }
+    );
+  });
+
   return (
     <section className="py-8 space-y-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Main Left Area: Category Blocks (8 cols on large) */}
         <div className="lg:col-span-8 space-y-10">
-          {CATEGORY_BLOCKS.map((block) => (
+          {blocks.map((block) => (
             <div key={block.category} className="border-b border-[#E2E2E2] pb-8 last:border-b-0">
               {/* Category Header */}
               <div className="flex items-center justify-between border-b-2 border-[#1A1A1A] pb-2 mb-6">
@@ -95,7 +158,7 @@ export default function CategoryGridSection() {
             </div>
 
             <ol className="divide-y divide-[#E2E2E2]">
-              {MOST_READ_ARTICLES.map((article) => (
+              {mostRead.map((article) => (
                 <li key={article.rank} className="py-4 first:pt-0 group flex items-start gap-4">
                   <span className="font-serif font-black text-3xl sm:text-4xl text-[#B80000]/30 group-hover:text-[#B80000] transition-colors shrink-0 w-8 text-right">
                     {article.rank}
@@ -120,10 +183,10 @@ export default function CategoryGridSection() {
             {/* Newsletter Subscription Box */}
             <div className="bg-[#F2F2F2] p-5 border border-neutral-300 rounded-sm mt-8">
               <span className="text-xs font-bold uppercase tracking-wider text-[#B80000] block mb-1">
-                The Morning Briefing
+                {db.settings?.newsletterHeadline || "The Morning Briefing"}
               </span>
               <h4 className="font-serif font-bold text-base text-[#1A1A1A] mb-2">
-                Get essential global analysis delivered to your inbox every dawn.
+                {db.settings?.newsletterDescription || "Get essential global analysis delivered to your inbox every dawn."}
               </h4>
               <p className="text-xs text-neutral-600 mb-3">
                 Curated by senior correspondents. Uncompromising editorial independence.

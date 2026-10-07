@@ -1,25 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, User, Menu, X } from "lucide-react";
 
-const NAV_ITEMS = [
-  { name: "Home", href: "/" },
-  { name: "World", href: "/category/world" },
-  { name: "Politics", href: "/category/politics" },
-  { name: "Business", href: "/category/business" },
-  { name: "Tech", href: "/category/tech" },
-  { name: "Science", href: "/category/science" },
-  { name: "Sports", href: "/category/sports" },
-  { name: "Entertainment", href: "/category/entertainment" },
-  { name: "Opinion", href: "/category/opinion" },
+interface NavCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+const DEFAULT_CATEGORIES: NavCategory[] = [
+  { id: "c-1", name: "World", slug: "world" },
+  { id: "c-2", name: "Politics", slug: "politics" },
+  { id: "c-3", name: "Business", slug: "business" },
+  { id: "c-4", name: "Tech", slug: "tech" },
+  { id: "c-5", name: "Science", slug: "science" },
+  { id: "c-6", name: "Sports", slug: "sports" },
+  { id: "c-7", name: "Entertainment", slug: "entertainment" },
+  { id: "c-8", name: "Opinion", slug: "opinion" },
 ];
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [siteName, setSiteName] = useState("THE REVOLUTION");
+  const [categories, setCategories] = useState<NavCategory[]>(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    // Fetch dynamic site settings
+    fetch("/api/settings")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.settings?.siteName) {
+          setSiteName(data.settings.siteName.toUpperCase());
+        }
+      })
+      .catch(() => {});
+
+    // Fetch dynamic categories
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.categories && data.categories.length > 0) {
+          setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,11 +77,11 @@ export default function Header() {
 
           <div className="flex items-center gap-5">
             <Link
-              href="/admin/login"
+              href="/admin"
               className="hover:text-[#B80000] flex items-center gap-1.5 transition-colors font-medium text-neutral-700"
             >
-              <User className="w-3.5 h-3.5" />
-              <span>Admin Portal</span>
+              <User className="w-3.5 h-3.5 text-[#B80000]" />
+              <span className="font-bold">Admin Portal</span>
             </Link>
           </div>
         </div>
@@ -75,7 +104,6 @@ export default function Header() {
           {/* Center Brand Logo (BBC Block Style) */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-1.5 group">
-              {/* Three iconic square blocks */}
               <div className="flex items-center gap-1">
                 <span className="bg-[#B80000] text-white font-serif font-black text-xl sm:text-2xl px-2.5 py-1 inline-flex items-center justify-center leading-none">
                   T
@@ -88,7 +116,7 @@ export default function Header() {
                 </span>
               </div>
               <span className="text-[#1A1A1A] font-serif font-black tracking-tight text-2xl sm:text-3xl ml-1 group-hover:text-[#B80000] transition-colors">
-                REVOLUTION
+                {siteName.replace(/^THE\s*/i, "") || "REVOLUTION"}
               </span>
             </Link>
           </div>
@@ -107,10 +135,10 @@ export default function Header() {
             </button>
 
             <Link
-              href="/admin/login"
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#1A1A1A] text-white hover:bg-[#B80000] transition-colors rounded-sm"
+              href="/admin"
+              className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#B80000] text-white hover:bg-[#950000] transition-colors rounded-sm shadow-xs"
             >
-              Sign In
+              Admin Portal
             </Link>
           </div>
         </div>
@@ -142,15 +170,19 @@ export default function Header() {
       <nav className="border-t border-[#E2E2E2] bg-white hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ul className="flex items-center space-x-1 overflow-x-auto scrollbar-none">
-            {NAV_ITEMS.map((item, idx) => (
-              <li key={item.name}>
+            <li>
+              <Link
+                href="/"
+                className="inline-block py-2.5 px-3 text-sm font-semibold tracking-normal text-[#B80000] border-b-2 border-[#B80000]"
+              >
+                Home
+              </Link>
+            </li>
+            {categories.map((item) => (
+              <li key={item.id}>
                 <Link
-                  href={item.href}
-                  className={`inline-block py-2.5 px-3 text-sm font-semibold tracking-normal transition-colors relative hover:text-[#B80000] ${
-                    idx === 0
-                      ? "text-[#B80000] border-b-2 border-[#B80000]"
-                      : "text-[#1A1A1A] hover:border-b-2 hover:border-[#B80000]"
-                  }`}
+                  href={`/category/${item.slug}`}
+                  className="inline-block py-2.5 px-3 text-sm font-semibold tracking-normal text-[#1A1A1A] hover:text-[#B80000] hover:border-b-2 hover:border-[#B80000] transition-colors"
                 >
                   {item.name}
                 </Link>
@@ -163,10 +195,17 @@ export default function Header() {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-[#E2E2E2] bg-white px-4 py-4 space-y-2">
-          {NAV_ITEMS.map((item) => (
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 px-3 text-base font-semibold text-[#B80000] hover:bg-[#F2F2F2] rounded"
+          >
+            Home
+          </Link>
+          {categories.map((item) => (
             <Link
-              key={item.name}
-              href={item.href}
+              key={item.id}
+              href={`/category/${item.slug}`}
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 px-3 text-base font-semibold text-neutral-800 hover:bg-[#F2F2F2] rounded"
             >
@@ -175,10 +214,10 @@ export default function Header() {
           ))}
           <div className="pt-4 border-t border-neutral-200">
             <Link
-              href="/admin/login"
+              href="/admin"
               className="block py-2.5 px-3 text-center bg-[#B80000] text-white font-bold text-sm uppercase tracking-wider rounded-sm"
             >
-              Admin Sign In
+              Admin Dashboard
             </Link>
           </div>
         </div>

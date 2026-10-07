@@ -2,9 +2,63 @@ import Link from "next/link";
 import Image from "next/image";
 import { Clock } from "lucide-react";
 import { HERO_STORIES } from "@/data/mockNews";
+import { getDb } from "@/lib/store";
 
 export default function HeroSection() {
-  const { lead, leftStories, rightStories } = HERO_STORIES;
+  const db = getDb();
+  const publishedArticles = db.articles.filter((a) => a.status === "PUBLISHED");
+
+  // Determine lead article (featured preferred)
+  const leadStored =
+    publishedArticles.find((a) => a.featured) || publishedArticles[0];
+
+  const lead = leadStored
+    ? {
+        id: leadStored.id,
+        title: leadStored.title,
+        slug: leadStored.slug,
+        summary: leadStored.summary,
+        coverImage: leadStored.coverImage,
+        category: {
+          id: leadStored.categoryId,
+          name: leadStored.categoryName,
+          slug: leadStored.categorySlug,
+        },
+        author: { name: leadStored.authorName },
+        timeAgo: leadStored.publishedAt
+          ? new Date(leadStored.publishedAt).toLocaleDateString()
+          : "Recently",
+        relatedBullets: HERO_STORIES.lead.relatedBullets,
+      }
+    : HERO_STORIES.lead;
+
+  // Other published articles excluding lead
+  const remaining = publishedArticles.filter((a) => a.id !== leadStored?.id);
+
+  const leftStories =
+    remaining.length >= 2
+      ? remaining.slice(0, 2).map((a) => ({
+          id: a.id,
+          title: a.title,
+          slug: a.slug,
+          summary: a.summary,
+          coverImage: a.coverImage,
+          category: { id: a.categoryId, name: a.categoryName, slug: a.categorySlug },
+          timeAgo: a.publishedAt ? new Date(a.publishedAt).toLocaleDateString() : "Today",
+        }))
+      : HERO_STORIES.leftStories;
+
+  const rightStories =
+    remaining.length >= 5
+      ? remaining.slice(2, 5).map((a) => ({
+          id: a.id,
+          title: a.title,
+          slug: a.slug,
+          coverImage: a.coverImage,
+          category: { id: a.categoryId, name: a.categoryName, slug: a.categorySlug },
+          timeAgo: a.publishedAt ? new Date(a.publishedAt).toLocaleDateString() : "Today",
+        }))
+      : HERO_STORIES.rightStories;
 
   return (
     <section className="py-6 border-b border-[#E2E2E2]">

@@ -59,3 +59,37 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Failed to create tag" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    const userRole = session?.user?.role || "ADMIN";
+    const userId = session?.user?.id || "u-1";
+    const userName = session?.user?.name || "Admin Chief";
+
+    if (!can({ role: userRole, id: userId }, "tag:manage")) {
+      return NextResponse.json({ success: false, error: "Permission denied" }, { status: 403 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Missing tag ID" }, { status: 400 });
+    }
+
+    const db = getDb();
+    const tag = db.tags.find((t) => t.id === id);
+    if (!tag) {
+      return NextResponse.json({ success: false, error: "Tag not found" }, { status: 404 });
+    }
+
+    db.tags = db.tags.filter((t) => t.id !== id);
+    saveDb(db);
+
+    logAudit("DELETE", "Tag", id, userId, userName, `Deleted tag "${tag.name}"`);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json({ success: false, error: "Failed to delete tag" }, { status: 500 });
+  }
+}

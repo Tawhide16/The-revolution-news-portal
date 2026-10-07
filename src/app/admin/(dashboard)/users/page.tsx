@@ -87,10 +87,10 @@ export default function AdminUsersPage() {
 
   const handleRoleChange = async (userId: string, newRole: Role) => {
     try {
-      const res = await fetch(`/api/users/${userId}`, {
+      const res = await fetch("/api/users", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role: newRole }),
+        body: JSON.stringify({ id: userId, role: newRole }),
       });
       const data = await res.json();
       if (data.success) {
@@ -109,10 +109,10 @@ export default function AdminUsersPage() {
   const handleToggleActive = async (user: UserItem) => {
     const nextActive = !user.active;
     try {
-      const res = await fetch(`/api/users/${user.id}`, {
+      const res = await fetch("/api/users", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ active: nextActive }),
+        body: JSON.stringify({ id: user.id, active: nextActive }),
       });
       const data = await res.json();
       if (data.success) {
@@ -135,7 +135,7 @@ export default function AdminUsersPage() {
     if (!confirm(`Permanently delete staff account for "${userName}"?`)) return;
 
     try {
-      const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/users?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setUsers((prev) => prev.filter((u) => u.id !== id));

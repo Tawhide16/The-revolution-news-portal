@@ -85,6 +85,7 @@ export default function AdminCategoriesPage() {
     setMessage(null);
 
     const payload = {
+      id: editingCategory?.id,
       name: formName,
       slug: formSlug || createSlug(formName),
       description: formDesc,
@@ -92,7 +93,7 @@ export default function AdminCategoriesPage() {
     };
 
     try {
-      const url = editingCategory ? `/api/categories/${editingCategory.id}` : "/api/categories";
+      const url = "/api/categories";
       const method = editingCategory ? "PUT" : "POST";
 
       const res = await fetch(url, {
@@ -124,7 +125,7 @@ export default function AdminCategoriesPage() {
     setMessage(null);
 
     try {
-      const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/categories?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setMessage({ text: `Category "${name}" deleted successfully`, type: "success" });

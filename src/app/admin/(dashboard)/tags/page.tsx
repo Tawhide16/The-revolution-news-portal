@@ -74,7 +74,7 @@ export default function AdminTagsPage() {
     setMessage(null);
 
     try {
-      const res = await fetch(`/api/tags/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/tags?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setTags((prev) => prev.filter((t) => t.id !== id));

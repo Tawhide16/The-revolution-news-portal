@@ -71,7 +71,7 @@ export default function AdminArticlesListPage() {
     setMessage(null);
 
     try {
-      const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/articles?id=${id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         setArticles((prev) => prev.filter((a) => a.id !== id));

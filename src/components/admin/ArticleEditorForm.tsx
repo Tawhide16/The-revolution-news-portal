@@ -161,7 +161,7 @@ export default function ArticleEditorForm({
     };
 
     try {
-      const url = isEditing ? `/api/articles/${initialData?.id}` : "/api/articles";
+      const url = "/api/articles";
       const method = isEditing ? "PUT" : "POST";
 
       const res = await fetch(url, {

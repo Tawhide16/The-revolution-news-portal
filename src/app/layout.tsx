@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Merriweather } from "next/font/google";
 import "./globals.css";
+import SessionWrapper from "@/components/admin/SessionWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${merriweather.variable}`}>
       <body className="min-h-screen bg-white text-[#1A1A1A] antialiased">
-        {children}
+        <SessionWrapper>{children}</SessionWrapper>
       </body>
     </html>
   );

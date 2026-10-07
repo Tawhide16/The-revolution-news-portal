@@ -14,7 +14,7 @@ export default function Footer() {
     { name: "Accessibility Help", href: "#" },
     { name: "Contact Us", href: "#" },
     { name: "Editorial Standards", href: "#" },
-    { name: "Admin Portal", href: "/admin" },
+    { name: "Sign In", href: "/admin/login" },
   ];
 
   return (

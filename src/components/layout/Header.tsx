@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, User, Menu, X } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { Search, User, Menu, X, Shield, LayoutDashboard, LogOut } from "lucide-react";
 
 interface NavCategory {
   id: string;
@@ -22,14 +23,18 @@ const DEFAULT_CATEGORIES: NavCategory[] = [
 ];
 
 export default function Header() {
+  const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [siteName, setSiteName] = useState("THE REVOLUTION");
   const [categories, setCategories] = useState<NavCategory[]>(DEFAULT_CATEGORIES);
 
+  const isLoggedIn = !!session?.user;
+  const userRole = session?.user?.role;
+  const userName = session?.user?.name || "Staff";
+
   useEffect(() => {
-    // Fetch dynamic site settings
     fetch("/api/settings")
       .then((res) => res.json())
       .then((data) => {
@@ -39,7 +44,6 @@ export default function Header() {
       })
       .catch(() => {});
 
-    // Fetch dynamic categories
     fetch("/api/categories")
       .then((res) => res.json())
       .then((data) => {
@@ -75,14 +79,38 @@ export default function Header() {
             <span className="text-neutral-500">Global Edition</span>
           </div>
 
-          <div className="flex items-center gap-5">
-            <Link
-              href="/admin"
-              className="hover:text-[#B80000] flex items-center gap-1.5 transition-colors font-medium text-neutral-700"
-            >
-              <User className="w-3.5 h-3.5 text-[#B80000]" />
-              <span className="font-bold">Admin Portal</span>
-            </Link>
+          <div className="flex items-center gap-4">
+            {isLoggedIn ? (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/admin"
+                  className="hover:text-[#B80000] flex items-center gap-1.5 transition-colors font-medium text-neutral-800"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5 text-[#B80000]" />
+                  <span className="font-semibold">{userName}</span>
+                  <span className="bg-[#B80000] text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider ml-1">
+                    {userRole}
+                  </span>
+                </Link>
+                <span className="text-neutral-300">|</span>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="text-neutral-500 hover:text-[#B80000] transition-colors flex items-center gap-1 text-[11px]"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-3 h-3" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/admin/login"
+                className="hover:text-[#B80000] flex items-center gap-1.5 transition-colors font-medium text-neutral-700"
+              >
+                <User className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -134,12 +162,21 @@ export default function Header() {
               </span>
             </button>
 
-            <Link
-              href="/admin"
-              className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#B80000] text-white hover:bg-[#950000] transition-colors rounded-sm shadow-xs"
-            >
-              Admin Portal
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                href="/admin"
+                className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#1A1A1A] hover:bg-[#B80000] text-white transition-colors rounded-sm shadow-xs"
+              >
+                <span>{userRole}</span>
+              </Link>
+            ) : (
+              <Link
+                href="/admin/login"
+                className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-[#1A1A1A] text-white hover:bg-[#B80000] transition-colors rounded-sm shadow-xs"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
 
@@ -212,13 +249,36 @@ export default function Header() {
               {item.name}
             </Link>
           ))}
-          <div className="pt-4 border-t border-neutral-200">
-            <Link
-              href="/admin"
-              className="block py-2.5 px-3 text-center bg-[#B80000] text-white font-bold text-sm uppercase tracking-wider rounded-sm"
-            >
-              Admin Dashboard
-            </Link>
+          <div className="pt-4 border-t border-neutral-200 space-y-2">
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block py-2.5 px-3 text-center bg-[#B80000] text-white font-bold text-sm uppercase tracking-wider rounded-sm"
+                >
+                  {userRole} Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    signOut({ callbackUrl: "/" });
+                  }}
+                  className="w-full py-2 px-3 text-center text-xs font-semibold text-neutral-600 hover:text-black border border-neutral-300 rounded-sm"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/admin/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2.5 px-3 text-center bg-[#1A1A1A] text-white font-bold text-sm uppercase tracking-wider rounded-sm"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       )}

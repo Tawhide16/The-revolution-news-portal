@@ -12,6 +12,7 @@ import {
   RefreshCw,
   ExternalLink,
 } from "lucide-react";
+import DatabaseHealthCard from "@/components/admin/DatabaseHealthCard";
 
 interface SettingsData {
   siteName: string;
@@ -122,6 +123,9 @@ export default function AdminSettingsPage() {
           <span>{message.text}</span>
         </div>
       )}
+
+      {/* Database Connection & Infrastructure Diagnostics */}
+      <DatabaseHealthCard />
 
       {loading ? (
         <div className="p-12 text-center text-xs text-neutral-500 flex items-center justify-center gap-2">

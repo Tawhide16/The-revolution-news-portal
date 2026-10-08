@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import SessionWrapper from "@/components/admin/SessionWrapper";
+import DatabaseStatusBadge from "@/components/admin/DatabaseStatusBadge";
 import type { Role } from "@/lib/rbac";
 
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
@@ -199,7 +200,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            <DatabaseStatusBadge />
+
             <Link
               href="/admin/articles/new"
               className="bg-[#B80000] hover:bg-[#950000] text-white text-xs font-bold uppercase tracking-wider px-3.5 py-2 rounded-sm transition-colors flex items-center gap-1.5 shadow-sm"

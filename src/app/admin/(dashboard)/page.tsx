@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { getDb } from "@/lib/store";
 import WriterActivityOverview, { DashboardArticle } from "@/components/admin/WriterActivityOverview";
+import DatabaseHealthCard from "@/components/admin/DatabaseHealthCard";
 
 export const dynamic = "force-dynamic";
 
@@ -110,6 +111,9 @@ export default async function AdminDashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Database & Infrastructure Connection Health Card */}
+      <DatabaseHealthCard />
 
       {/* KPI Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

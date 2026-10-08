@@ -19,6 +19,13 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   title: "The Revolution | World News, Politics, Business & Tech",
   description: "A premier BBC-style news portal delivering comprehensive reporting, breaking news and critical analysis.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({

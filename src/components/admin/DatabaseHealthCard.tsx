@@ -12,6 +12,9 @@ import {
   HardDrive,
   Activity,
   Layers,
+  PieChart,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { DbStatusResponse } from "./DatabaseStatusBadge";
 
@@ -19,6 +22,7 @@ export default function DatabaseHealthCard() {
   const [data, setData] = useState<DbStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [showTableDetails, setShowTableDetails] = useState(false);
 
   const fetchStatus = useCallback(async () => {
     try {
@@ -26,7 +30,7 @@ export default function DatabaseHealthCard() {
       const res = await fetch("/api/admin/db-status", { cache: "no-store" });
       const json = await res.json();
       setData(json);
-    } catch (err) {
+    } catch {
       setData({
         success: false,
         status: "error",
@@ -58,6 +62,7 @@ export default function DatabaseHealthCard() {
   }, [fetchStatus]);
 
   const isConnected = data?.database?.connected ?? false;
+  const storage = data?.storage;
 
   return (
     <div className="bg-white border border-neutral-200 rounded-sm shadow-xs overflow-hidden">
@@ -77,7 +82,7 @@ export default function DatabaseHealthCard() {
           </div>
           <div>
             <h2 className="text-sm font-bold text-[#1A1A1A] flex items-center gap-2">
-              Database &amp; Infrastructure Health
+              Database &amp; 1 GB Storage Health
               <span
                 className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
                   loading
@@ -91,7 +96,7 @@ export default function DatabaseHealthCard() {
               </span>
             </h2>
             <p className="text-[11px] text-neutral-500">
-              Live connection status for Neon PostgreSQL and data storage
+              Live connection status, 1 GB storage quota &amp; table usage breakdown
             </p>
           </div>
         </div>
@@ -100,10 +105,10 @@ export default function DatabaseHealthCard() {
           onClick={fetchStatus}
           disabled={refreshing}
           className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded bg-white border border-neutral-300 text-neutral-700 hover:bg-neutral-50 hover:border-neutral-400 disabled:opacity-50 transition-colors shadow-2xs self-start sm:self-auto"
-          title="Re-test database connection now"
+          title="Re-test database connection & refresh storage usage"
         >
           <RefreshCw className={`w-3.5 h-3.5 text-neutral-500 ${refreshing ? "animate-spin text-[#B80000]" : ""}`} />
-          <span>{refreshing ? "Pinging..." : "Test Connection"}</span>
+          <span>{refreshing ? "Refreshing..." : "Refresh Status"}</span>
         </button>
       </div>
 
@@ -152,7 +157,65 @@ export default function DatabaseHealthCard() {
           </div>
         </div>
 
-        {/* 4 Metrics Badges */}
+        {/* 1 GB Storage Usage Banner & Progress Bar */}
+        {storage && (
+          <div className="p-4 bg-neutral-50 border border-neutral-200 rounded space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+              <div className="flex items-center gap-2">
+                <PieChart className="w-4 h-4 text-[#B80000]" />
+                <span className="text-xs font-bold text-neutral-900">
+                  Database Disk Usage (1 GB Free Quota)
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="font-bold text-neutral-900">{storage.usedFormatted}</span>
+                <span className="text-neutral-400">/</span>
+                <span className="text-neutral-600">{storage.quotaFormatted}</span>
+                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 py-0.5 rounded">
+                  {storage.percentUsed}% used
+                </span>
+              </div>
+            </div>
+
+            {/* Visual Progress Bar */}
+            <div className="w-full bg-neutral-200 h-3 rounded-full overflow-hidden relative">
+              <div
+                style={{ width: `${Math.max(1, Math.min(100, storage.percentUsed))}%` }}
+                className={`h-full transition-all duration-500 rounded-full ${
+                  storage.percentUsed > 80
+                    ? "bg-red-600"
+                    : storage.percentUsed > 50
+                    ? "bg-amber-500"
+                    : "bg-emerald-600"
+                }`}
+              />
+            </div>
+
+            {/* 3 Storage Stat Blocks */}
+            <div className="grid grid-cols-3 gap-2 text-center text-xs pt-1">
+              <div className="bg-white p-2.5 rounded border border-neutral-200">
+                <div className="text-[10px] uppercase tracking-wider text-neutral-500">Total Quota</div>
+                <div className="font-mono font-bold text-neutral-900 text-xs sm:text-sm mt-0.5">
+                  1.00 GB
+                </div>
+              </div>
+              <div className="bg-white p-2.5 rounded border border-neutral-200">
+                <div className="text-[10px] uppercase tracking-wider text-neutral-500">Used Storage</div>
+                <div className="font-mono font-bold text-neutral-900 text-xs sm:text-sm mt-0.5">
+                  {storage.usedFormatted}
+                </div>
+              </div>
+              <div className="bg-white p-2.5 rounded border border-neutral-200">
+                <div className="text-[10px] uppercase tracking-wider text-emerald-700 font-semibold">Free Remaining</div>
+                <div className="font-mono font-bold text-emerald-700 text-xs sm:text-sm mt-0.5">
+                  {storage.remainingFormatted}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 4 Infrastructure Metrics Badges */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
           <div className="p-3 bg-neutral-50/80 border border-neutral-200 rounded">
             <div className="flex items-center gap-1.5 text-[11px] text-neutral-500 mb-1">
@@ -208,19 +271,64 @@ export default function DatabaseHealthCard() {
           </div>
         </div>
 
-        {/* Database Tables and Records Overview */}
-        {isConnected && data?.database?.counts && (
-          <div className="pt-2 border-t border-neutral-100 flex flex-wrap items-center justify-between text-xs gap-3">
-            <div className="flex items-center gap-2 text-neutral-500 text-[11px]">
-              <Layers className="w-3.5 h-3.5 text-neutral-400" />
-              <span>Active PostgreSQL Records:</span>
-              <span className="font-mono text-neutral-800 font-semibold">
-                {data.database.counts.users} Users &bull; {data.database.counts.articles} Articles &bull; {data.database.counts.categories} Categories &bull; {data.database.counts.tags} Tags
+        {/* Detailed Table Storage Breakdown Toggle */}
+        {storage && storage.tables && storage.tables.length > 0 && (
+          <div className="pt-2 border-t border-neutral-200 space-y-2">
+            <button
+              onClick={() => setShowTableDetails(!showTableDetails)}
+              className="w-full flex items-center justify-between text-xs font-semibold py-1.5 px-2 rounded hover:bg-neutral-100 transition-colors text-neutral-700 cursor-pointer"
+            >
+              <span className="flex items-center gap-2">
+                <Layers className="w-4 h-4 text-[#B80000]" />
+                <span>
+                  Table Storage Breakdown ({storage.tables.length} Database Tables)
+                </span>
+                <span className="font-mono text-[11px] text-neutral-500">
+                  Total Tables Size: {storage.tablesTotalFormatted}
+                </span>
               </span>
-            </div>
-            <div className="text-[11px] text-neutral-400 font-mono">
-              Server Version: {data.database.version ? data.database.version.split(" ")[0] + " " + data.database.version.split(" ")[1] : "PostgreSQL 18.x"}
-            </div>
+              <span className="flex items-center gap-1 text-[11px] text-neutral-500">
+                {showTableDetails ? "Hide Table Usage" : "Show Table Usage"}
+                {showTableDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </span>
+            </button>
+
+            {showTableDetails && (
+              <div className="border border-neutral-200 rounded overflow-hidden bg-white shadow-2xs">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-neutral-100/90 text-neutral-700 font-semibold uppercase tracking-wider text-[10px] border-b border-neutral-200">
+                    <tr>
+                      <th className="py-2 px-3">Table Name</th>
+                      <th className="py-2 px-3 text-right">Rows</th>
+                      <th className="py-2 px-3 text-right">Data Size</th>
+                      <th className="py-2 px-3 text-right">Index Size</th>
+                      <th className="py-2 px-3 text-right">Total Disk Usage</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-neutral-100">
+                    {storage.tables.map((t) => (
+                      <tr key={t.tableName} className="hover:bg-neutral-50/80 transition-colors">
+                        <td className="py-2 px-3 font-semibold text-neutral-900 font-sans">
+                          {t.tableName}
+                        </td>
+                        <td className="py-2 px-3 text-right font-mono text-neutral-600">
+                          {t.rowCount.toLocaleString()}
+                        </td>
+                        <td className="py-2 px-3 text-right font-mono text-neutral-500">
+                          {t.tableFormatted}
+                        </td>
+                        <td className="py-2 px-3 text-right font-mono text-neutral-500">
+                          {t.indexFormatted}
+                        </td>
+                        <td className="py-2 px-3 text-right font-mono font-bold text-neutral-900">
+                          {t.totalFormatted}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

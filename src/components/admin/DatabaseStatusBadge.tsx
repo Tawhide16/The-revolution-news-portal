@@ -12,7 +12,35 @@ import {
   Clock,
   Layers,
   HardDrive,
+  PieChart,
 } from "lucide-react";
+
+export interface TableStorageInfo {
+  tableName: string;
+  totalBytes: number;
+  tableBytes: number;
+  indexBytes: number;
+  totalFormatted: string;
+  tableFormatted: string;
+  indexFormatted: string;
+  rowCount: number;
+  percentOfUsed: number;
+}
+
+export interface StorageMetrics {
+  quotaBytes: number;
+  quotaFormatted: string;
+  usedBytes: number;
+  usedFormatted: string;
+  remainingBytes: number;
+  remainingFormatted: string;
+  percentUsed: number;
+  tablesTotalBytes: number;
+  tablesTotalFormatted: string;
+  systemOverheadBytes: number;
+  systemOverheadFormatted: string;
+  tables: TableStorageInfo[];
+}
 
 export interface DbStatusResponse {
   success: boolean;
@@ -36,6 +64,7 @@ export interface DbStatusResponse {
     };
     error: string | null;
   };
+  storage?: StorageMetrics;
   localStorage: {
     status: string;
     counts: {
@@ -58,8 +87,8 @@ export default function DatabaseStatusBadge() {
       const res = await fetch("/api/admin/db-status", { cache: "no-store" });
       const json = await res.json();
       setData(json);
-    } catch (err) {
-      setData((prev) => ({
+    } catch {
+      setData({
         success: false,
         status: "error",
         checkedAt: new Date().toISOString(),
@@ -76,7 +105,7 @@ export default function DatabaseStatusBadge() {
           error: "Failed to communicate with DB status API",
         },
         localStorage: { status: "unknown", counts: { articles: 0, categories: 0, users: 0 } },
-      }));
+      });
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -85,12 +114,12 @@ export default function DatabaseStatusBadge() {
 
   useEffect(() => {
     fetchStatus();
-    // Re-check periodically every 60 seconds
     const interval = setInterval(fetchStatus, 60000);
     return () => clearInterval(interval);
   }, [fetchStatus]);
 
   const isConnected = data?.database?.connected ?? false;
+  const storage = data?.storage;
 
   return (
     <>
@@ -104,7 +133,7 @@ export default function DatabaseStatusBadge() {
             ? "bg-emerald-50/90 text-emerald-800 border-emerald-300 hover:bg-emerald-100/90"
             : "bg-red-50 text-red-800 border-red-300 hover:bg-red-100"
         }`}
-        title="Click to view detailed Database Connection Diagnostics"
+        title="Click to view detailed Database Connection Diagnostics & 1 GB Storage Usage"
       >
         <span className="relative flex h-2 w-2">
           {isConnected && (
@@ -129,6 +158,11 @@ export default function DatabaseStatusBadge() {
           ) : isConnected ? (
             <span className="font-semibold text-emerald-700">
               Online ({data?.latencyMs}ms)
+              {storage && (
+                <span className="ml-1 text-[10px] text-neutral-500 font-normal">
+                  &bull; {storage.usedFormatted}
+                </span>
+              )}
             </span>
           ) : (
             <span className="font-semibold text-red-700">Offline</span>
@@ -136,15 +170,15 @@ export default function DatabaseStatusBadge() {
         </span>
       </button>
 
-      {/* Connection Diagnostic Modal */}
+      {/* Connection & Storage Diagnostic Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div
-            className="bg-white rounded-lg shadow-2xl border border-neutral-200 w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-150"
+            className="bg-white rounded-lg shadow-2xl border border-neutral-200 w-full max-w-xl max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-150"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="px-5 py-4 border-b border-neutral-200 flex items-center justify-between bg-neutral-50">
+            <div className="px-5 py-4 border-b border-neutral-200 flex items-center justify-between bg-neutral-50 shrink-0">
               <div className="flex items-center gap-2.5">
                 <div
                   className={`p-2 rounded-md ${
@@ -155,10 +189,10 @@ export default function DatabaseStatusBadge() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-neutral-900">
-                    Database Connection Diagnostics
+                    Database Diagnostics &amp; 1 GB Storage Monitor
                   </h3>
                   <p className="text-[11px] text-neutral-500">
-                    Real-time PostgreSQL (Neon) &amp; Storage Engine Health
+                    PostgreSQL Server Health, Disk Quota &amp; Table Analytics
                   </p>
                 </div>
               </div>
@@ -170,8 +204,8 @@ export default function DatabaseStatusBadge() {
               </button>
             </div>
 
-            {/* Body */}
-            <div className="p-5 space-y-4">
+            {/* Scrollable Body */}
+            <div className="p-5 space-y-4 overflow-y-auto">
               {/* Primary Status Banner */}
               <div
                 className={`p-3.5 rounded-md border flex items-start gap-3 ${
@@ -210,6 +244,44 @@ export default function DatabaseStatusBadge() {
                   </p>
                 </div>
               </div>
+
+              {/* 1 GB Storage Quota Meter */}
+              {storage && (
+                <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-md space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-neutral-900">
+                      <PieChart className="w-4 h-4 text-[#B80000]" />
+                      <span>1 GB Free Tier Storage Quota</span>
+                    </div>
+                    <span className="text-xs font-mono font-semibold text-neutral-800">
+                      {storage.usedFormatted} / {storage.quotaFormatted} ({storage.percentUsed}%)
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full h-3 bg-neutral-200 rounded-full overflow-hidden relative">
+                    <div
+                      style={{ width: `${Math.max(1, Math.min(100, storage.percentUsed))}%` }}
+                      className={`h-full transition-all duration-500 rounded-full ${
+                        storage.percentUsed > 85
+                          ? "bg-red-600"
+                          : storage.percentUsed > 60
+                          ? "bg-amber-500"
+                          : "bg-emerald-600"
+                      }`}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] text-neutral-600">
+                    <span>
+                      Used: <strong className="text-neutral-900 font-mono">{storage.usedFormatted}</strong>
+                    </span>
+                    <span>
+                      Free Remaining: <strong className="text-emerald-700 font-mono">{storage.remainingFormatted}</strong>
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* Technical Specifications Grid */}
               <div className="grid grid-cols-2 gap-2.5 text-xs">
@@ -283,41 +355,52 @@ export default function DatabaseStatusBadge() {
                 </div>
               </div>
 
-              {/* Postgres Records & Tables Summary */}
-              {isConnected && data?.database?.counts && (
-                <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-md space-y-2">
-                  <div className="flex items-center justify-between text-[11px] text-neutral-600 font-semibold uppercase tracking-wider">
+              {/* Individual Tables Storage Breakdown */}
+              {storage && storage.tables && storage.tables.length > 0 && (
+                <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-md space-y-2.5">
+                  <div className="flex items-center justify-between text-xs font-bold text-neutral-900">
                     <span className="flex items-center gap-1.5">
-                      <Layers className="w-3.5 h-3.5" />
-                      PostgreSQL Tables in DB
+                      <Layers className="w-3.5 h-3.5 text-neutral-600" />
+                      Table Storage Details ({storage.tables.length} Models)
                     </span>
-                    <span className="font-mono text-neutral-400">9 Schema Models</span>
+                    <span className="text-[11px] font-mono text-neutral-500">
+                      Data: {storage.tablesTotalFormatted}
+                    </span>
                   </div>
-                  <div className="grid grid-cols-4 gap-2 text-center text-xs">
-                    <div className="bg-white p-2 rounded border border-neutral-200">
-                      <div className="text-neutral-400 text-[10px]">Users</div>
-                      <div className="font-bold text-neutral-900 font-mono">
-                        {data.database.counts.users}
-                      </div>
-                    </div>
-                    <div className="bg-white p-2 rounded border border-neutral-200">
-                      <div className="text-neutral-400 text-[10px]">Articles</div>
-                      <div className="font-bold text-neutral-900 font-mono">
-                        {data.database.counts.articles}
-                      </div>
-                    </div>
-                    <div className="bg-white p-2 rounded border border-neutral-200">
-                      <div className="text-neutral-400 text-[10px]">Categories</div>
-                      <div className="font-bold text-neutral-900 font-mono">
-                        {data.database.counts.categories}
-                      </div>
-                    </div>
-                    <div className="bg-white p-2 rounded border border-neutral-200">
-                      <div className="text-neutral-400 text-[10px]">Tags</div>
-                      <div className="font-bold text-neutral-900 font-mono">
-                        {data.database.counts.tags}
-                      </div>
-                    </div>
+
+                  <div className="border border-neutral-200 rounded bg-white overflow-hidden max-h-48 overflow-y-auto">
+                    <table className="w-full text-[11px] text-left">
+                      <thead className="bg-neutral-100 text-neutral-600 font-semibold uppercase tracking-wider text-[10px] border-b border-neutral-200 sticky top-0">
+                        <tr>
+                          <th className="py-1.5 px-2.5">Table</th>
+                          <th className="py-1.5 px-2 text-right">Rows</th>
+                          <th className="py-1.5 px-2 text-right">Data</th>
+                          <th className="py-1.5 px-2 text-right">Index</th>
+                          <th className="py-1.5 px-2.5 text-right">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-neutral-100">
+                        {storage.tables.map((t) => (
+                          <tr key={t.tableName} className="hover:bg-neutral-50/70 font-mono">
+                            <td className="py-1.5 px-2.5 font-sans font-semibold text-neutral-800">
+                              {t.tableName}
+                            </td>
+                            <td className="py-1.5 px-2 text-right text-neutral-600">
+                              {t.rowCount}
+                            </td>
+                            <td className="py-1.5 px-2 text-right text-neutral-500">
+                              {t.tableFormatted}
+                            </td>
+                            <td className="py-1.5 px-2 text-right text-neutral-500">
+                              {t.indexFormatted}
+                            </td>
+                            <td className="py-1.5 px-2.5 text-right font-bold text-neutral-900">
+                              {t.totalFormatted}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               )}
@@ -340,7 +423,7 @@ export default function DatabaseStatusBadge() {
             </div>
 
             {/* Footer Actions */}
-            <div className="px-5 py-3 bg-neutral-50 border-t border-neutral-200 flex items-center justify-between">
+            <div className="px-5 py-3 bg-neutral-50 border-t border-neutral-200 flex items-center justify-between shrink-0">
               <span className="text-[11px] text-neutral-400">
                 Auto-pings every 60 seconds
               </span>

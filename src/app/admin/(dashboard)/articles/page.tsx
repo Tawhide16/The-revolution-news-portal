@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import {
   Search,
   Filter,
@@ -16,6 +17,9 @@ import {
   Zap,
   Star,
   RefreshCw,
+  Layout,
+  Smartphone,
+  Monitor,
 } from "lucide-react";
 
 interface ArticleItem {
@@ -26,6 +30,8 @@ interface ArticleItem {
   categoryName: string;
   authorName: string;
   status: "DRAFT" | "REVIEW" | "SCHEDULED" | "PUBLISHED" | "ARCHIVED";
+  layout?: string;
+  targetDevice?: string;
   featured: boolean;
   breaking: boolean;
   views: number;
@@ -34,11 +40,16 @@ interface ArticleItem {
 }
 
 export default function AdminArticlesListPage() {
+  const { data: session } = useSession();
+  const userRole = session?.user?.role || "ADMIN";
+  const isAdmin = userRole === "ADMIN" || userRole === "EDITOR";
+
   const [articles, setArticles] = useState<ArticleItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("ALL");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [approvingId, setApprovingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
   const fetchArticles = async () => {
@@ -53,6 +64,31 @@ export default function AdminArticlesListPage() {
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleApprove = async (id: string, title: string) => {
+    setApprovingId(id);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/articles", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, action: "approve" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setArticles((prev) =>
+          prev.map((a) => (a.id === id ? { ...a, status: "PUBLISHED" } : a))
+        );
+        setMessage({ text: `Article "${title}" approved and published live on the website!`, type: "success" });
+      } else {
+        setMessage({ text: data.error || "Failed to approve article", type: "error" });
+      }
+    } catch (err) {
+      setMessage({ text: "Error approving article", type: "error" });
+    } finally {
+      setApprovingId(null);
     }
   };
 
@@ -214,10 +250,14 @@ export default function AdminArticlesListPage() {
                       >
                         {art.title}
                       </Link>
-                      <div className="text-[11px] text-neutral-400 mt-1 flex items-center gap-2">
+                      <div className="text-[11px] text-neutral-400 mt-1 flex flex-wrap items-center gap-2">
                         <span>Slug: /{art.slug}</span>
                         <span>&bull;</span>
                         <span>{new Date(art.createdAt).toLocaleDateString()}</span>
+                        <span>&bull;</span>
+                        <span className="capitalize bg-neutral-100 text-neutral-700 px-1.5 py-0.5 rounded text-[10px] font-semibold">
+                          {art.layout || "standard"} layout ({art.targetDevice || "both"})
+                        </span>
                       </div>
                     </td>
 
@@ -231,7 +271,22 @@ export default function AdminArticlesListPage() {
                       {art.authorName}
                     </td>
 
-                    <td className="py-3.5 px-3">{getStatusBadge(art.status)}</td>
+                    <td className="py-3.5 px-3">
+                      <div className="flex flex-col gap-1 items-start">
+                        {getStatusBadge(art.status)}
+                        {art.status === "REVIEW" && isAdmin && (
+                          <button
+                            onClick={() => handleApprove(art.id, art.title)}
+                            disabled={approvingId === art.id}
+                            className="mt-1 px-2 py-0.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-xs"
+                            title="1-Click Approve & Publish"
+                          >
+                            <CheckCircle className="w-3 h-3" />
+                            {approvingId === art.id ? "..." : "Approve"}
+                          </button>
+                        )}
+                      </div>
+                    </td>
 
                     <td className="py-3.5 px-3 text-center">
                       <div className="flex items-center justify-center gap-1.5">
@@ -257,6 +312,16 @@ export default function AdminArticlesListPage() {
 
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
+                        {art.status === "REVIEW" && isAdmin && (
+                          <button
+                            onClick={() => handleApprove(art.id, art.title)}
+                            disabled={approvingId === art.id}
+                            className="hidden sm:inline-flex p-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded text-xs font-bold"
+                            title="Approve & Publish Live"
+                          >
+                            <CheckCircle className="w-4 h-4 text-emerald-600" />
+                          </button>
+                        )}
                         <Link
                           href={`/admin/articles/${art.id}`}
                           className="p-1.5 text-neutral-600 hover:text-[#B80000] hover:bg-neutral-100 rounded transition-colors"

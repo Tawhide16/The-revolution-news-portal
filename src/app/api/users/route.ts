@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
       email: email.toLowerCase(),
       role,
       active: active ?? true,
+      password: parsed.data.password || "newsroom2026",
       createdAt: new Date().toISOString(),
     };
 

@@ -6,9 +6,8 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
-    // Check specific route permissions
-    // Author cannot access /admin/users, /admin/settings, /admin/categories, /admin/tags, /admin/audit
-    if (token?.role === "AUTHOR") {
+    // Writer/Author cannot access /admin/users, /admin/settings, /admin/categories, /admin/tags, /admin/audit
+    if (token?.role === "AUTHOR" || token?.role === "WRITER") {
       if (
         path.startsWith("/admin/users") ||
         path.startsWith("/admin/settings") ||

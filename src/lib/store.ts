@@ -8,6 +8,8 @@ export interface StoredArticle {
   summary: string;
   content: string;
   coverImage: string;
+  layout?: "standard" | "hero" | "two-column" | "minimal";
+  targetDevice?: "both" | "desktop" | "mobile";
   categoryId: string;
   categoryName: string;
   categorySlug: string;
@@ -41,8 +43,9 @@ export interface StoredUser {
   id: string;
   name: string;
   email: string;
-  role: "ADMIN" | "EDITOR" | "AUTHOR";
+  role: "ADMIN" | "EDITOR" | "AUTHOR" | "WRITER";
   active: boolean;
+  password?: string;
   createdAt: string;
 }
 
@@ -130,6 +133,7 @@ function getDefaultState(): DatabaseState {
       { id: "u-1", name: "Admin Chief", email: "admin@example.com", role: "ADMIN", active: true, createdAt: new Date().toISOString() },
       { id: "u-2", name: "Elena Rostova", email: "editor@example.com", role: "EDITOR", active: true, createdAt: new Date().toISOString() },
       { id: "u-3", name: "Marcus Chen", email: "author@example.com", role: "AUTHOR", active: true, createdAt: new Date().toISOString() },
+      { id: "u-4", name: "Sarah Writer", email: "writer@example.com", role: "WRITER", active: true, createdAt: new Date().toISOString() },
     ],
     media: [
       {
@@ -366,17 +370,26 @@ function getDefaultState(): DatabaseState {
 
 export function getDb(): DatabaseState {
   try {
+    const defaults = getDefaultState();
     if (!fs.existsSync(DATA_FILE)) {
       const dir = path.dirname(DATA_FILE);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      const initial = getDefaultState();
-      fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2), "utf8");
-      return initial;
+      fs.writeFileSync(DATA_FILE, JSON.stringify(defaults, null, 2), "utf8");
+      return defaults;
     }
     const data = fs.readFileSync(DATA_FILE, "utf8");
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    return {
+      settings: parsed.settings || defaults.settings,
+      categories: parsed.categories && parsed.categories.length > 0 ? parsed.categories : defaults.categories,
+      tags: parsed.tags && parsed.tags.length > 0 ? parsed.tags : defaults.tags,
+      users: parsed.users && parsed.users.length > 0 ? parsed.users : defaults.users,
+      media: parsed.media && parsed.media.length > 0 ? parsed.media : defaults.media,
+      articles: parsed.articles || defaults.articles,
+      auditLogs: parsed.auditLogs || defaults.auditLogs,
+    };
   } catch (err) {
     console.error("Error reading database file, returning default state:", err);
     return getDefaultState();

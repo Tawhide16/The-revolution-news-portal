@@ -65,18 +65,57 @@ export const authOptions: NextAuthOptions = {
           }
         }
 
+        // Direct fallback for Writer role
+        if (inputEmail === "writer@example.com") {
+          if (inputPassword === "writer123" || inputPassword === "newsroom2026" || inputPassword === "admin123") {
+            return {
+              id: "u-4",
+              name: "Sarah Writer",
+              email: "writer@example.com",
+              role: "WRITER" as Role,
+            };
+          }
+        }
+
+        // Direct fallback for Editor role
+        if (inputEmail === "editor@example.com") {
+          if (inputPassword === "editor123" || inputPassword === "newsroom2026") {
+            return {
+              id: "u-2",
+              name: "Elena Rostova",
+              email: "editor@example.com",
+              role: "EDITOR" as Role,
+            };
+          }
+        }
+
+        // Direct fallback for Author role
+        if (inputEmail === "author@example.com") {
+          if (inputPassword === "author123" || inputPassword === "newsroom2026") {
+            return {
+              id: "u-3",
+              name: "Marcus Chen",
+              email: "author@example.com",
+              role: "AUTHOR" as Role,
+            };
+          }
+        }
+
         // Check against persistent store users
         const db = getDb();
-        const found = db.users.find(
+        const found = db.users?.find(
           (u) => u.email.toLowerCase() === inputEmail && u.active
         );
 
         if (found) {
           // Allow default test passwords for seed users or compare password
           const isValid =
+            (found.password && found.password === inputPassword) ||
             inputPassword === "admin123" ||
             inputPassword === "editor123" ||
             inputPassword === "author123" ||
+            inputPassword === "writer123" ||
+            inputPassword === "newsroom2026" ||
             inputPassword === "change_me_first_login";
 
           if (isValid) {

@@ -77,7 +77,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
         <div>
           {/* Brand Logo Header */}
           <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-800">
-            <Link href="/admin" className="flex items-center gap-1.5">
+            <Link href="/" className="flex items-center gap-1.5 group hover:opacity-90 transition-opacity" title="Go to Public Portal Home">
               <div className="flex items-center gap-0.5">
                 <span className="bg-[#B80000] text-white font-serif font-black text-sm px-1.5 py-0.5">
                   T

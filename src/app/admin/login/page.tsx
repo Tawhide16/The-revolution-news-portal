@@ -42,8 +42,12 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#F4F4F4] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        {/* Brand Logo */}
-        <div className="flex justify-center items-center gap-1.5 mb-4">
+        {/* Brand Logo - Click to go Home */}
+        <Link
+          href="/"
+          className="flex justify-center items-center gap-1.5 mb-4 group hover:opacity-90 transition-opacity"
+          title="Return to Home Page"
+        >
           <div className="flex items-center gap-1">
             <span className="bg-[#B80000] text-white font-serif font-black text-2xl px-2.5 py-1">
               T
@@ -58,7 +62,7 @@ export default function LoginPage() {
           <span className="font-serif font-black text-3xl tracking-tight text-[#1A1A1A]">
             REVOLUTION
           </span>
-        </div>
+        </Link>
 
         <div className="text-center">
           <h2 className="text-2xl font-serif font-bold text-[#1A1A1A]">

@@ -238,9 +238,10 @@ export default function AdminUsersPage() {
                 onChange={(e) => setRole(e.target.value as Role)}
                 className="w-full p-2.5 text-sm border border-neutral-300 focus:outline-none focus:border-[#B80000] bg-white"
               >
+                <option value="WRITER">WRITER (Can write own stories, upload images, submit for Admin approval)</option>
                 <option value="AUTHOR">AUTHOR (Can write own drafts, submit for review)</option>
                 <option value="EDITOR">EDITOR (Can publish, edit all articles, categories)</option>
-                <option value="ADMIN">ADMIN (Full access including users and settings)</option>
+                <option value="ADMIN">ADMIN (Full access - can do everything)</option>
               </select>
             </div>
 
@@ -312,6 +313,7 @@ export default function AdminUsersPage() {
                       <option value="ADMIN">ADMIN</option>
                       <option value="EDITOR">EDITOR</option>
                       <option value="AUTHOR">AUTHOR</option>
+                      <option value="WRITER">WRITER</option>
                     </select>
                   </td>
 

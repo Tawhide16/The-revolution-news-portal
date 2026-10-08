@@ -11,6 +11,7 @@ enum Role {
   ADMIN
   EDITOR
   AUTHOR
+  WRITER
 }
 
 enum Status {
@@ -26,7 +27,7 @@ model User {
   name         String
   email        String     @unique
   passwordHash String
-  role         Role       @default(AUTHOR)
+  role         Role       @default(WRITER)
   active       Boolean    @default(true)
   createdAt    DateTime   @default(now())
   articles     Article[]
@@ -51,26 +52,28 @@ model Tag {
 }
 
 model Article {
-  id          String    @id @default(cuid())
-  title       String
-  slug        String    @unique
-  summary     String
-  content     String
-  coverImage  String?
-  status      Status    @default(DRAFT)
-  featured    Boolean   @default(false)
-  breaking    Boolean   @default(false)
-  views       Int       @default(0)
-  publishedAt DateTime?
-  scheduledAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  author      User      @relation(fields: [authorId], references: [id])
-  authorId    String
-  category    Category  @relation(fields: [categoryId], references: [id])
-  categoryId  String
-  tags        Tag[]
-  comments    Comment[]
+  id           String    @id @default(cuid())
+  title        String
+  slug         String    @unique
+  summary      String
+  content      String
+  coverImage   String?
+  layout       String    @default("standard")
+  targetDevice String    @default("both")
+  status       Status    @default(DRAFT)
+  featured     Boolean   @default(false)
+  breaking     Boolean   @default(false)
+  views        Int       @default(0)
+  publishedAt  DateTime?
+  scheduledAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  author       User      @relation(fields: [authorId], references: [id])
+  authorId     String
+  category     Category  @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  tags         Tag[]
+  comments     Comment[]
 
   @@index([status, publishedAt])
   @@index([categoryId, publishedAt])

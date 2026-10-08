@@ -1,4 +1,4 @@
-export type Role = "ADMIN" | "EDITOR" | "AUTHOR";
+export type Role = "ADMIN" | "EDITOR" | "AUTHOR" | "WRITER";
 
 export interface CurrentUser {
   id: string;
@@ -30,6 +30,7 @@ export function can(
   action: Action,
   resource?: { authorId?: string; status?: string }
 ): boolean {
+  // Admin can do everything
   if (user.role === "ADMIN") return true;
 
   if (user.role === "EDITOR") {
@@ -57,15 +58,15 @@ export function can(
     }
   }
 
-  if (user.role === "AUTHOR") {
+  if (user.role === "AUTHOR" || user.role === "WRITER") {
     switch (action) {
       case "article:create":
         return true;
       case "article:edit":
-        // Author can only edit their own articles
+        // Writer can only edit their own articles
         return !resource?.authorId || resource.authorId === user.id;
       case "article:delete":
-        // Author can only delete their own drafts
+        // Writer can only delete their own drafts
         return (
           (!resource?.authorId || resource.authorId === user.id) &&
           resource?.status === "DRAFT"

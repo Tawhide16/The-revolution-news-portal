@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import {
   FileText,
   Clock,
@@ -11,10 +13,15 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import { getDb } from "@/lib/store";
+import WriterActivityOverview, { DashboardArticle } from "@/components/admin/WriterActivityOverview";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const session = await getServerSession(authOptions);
+  const userRole = session?.user?.role || "ADMIN";
+  const isAdmin = userRole === "ADMIN" || userRole === "EDITOR";
+
   const db = getDb();
   const articles = db.articles;
 
@@ -22,6 +29,37 @@ export default function AdminDashboardPage() {
   const draftCount = articles.filter((a) => a.status === "DRAFT").length;
   const reviewCount = articles.filter((a) => a.status === "REVIEW").length;
   const totalViews = articles.reduce((sum, a) => sum + (a.views || 0), 0);
+
+  // Review & Draft articles for newsroom overview
+  const reviewArticles: DashboardArticle[] = articles
+    .filter((a) => a.status === "REVIEW")
+    .map((a) => ({
+      id: a.id,
+      title: a.title,
+      slug: a.slug,
+      categoryName: a.categoryName,
+      authorName: a.authorName,
+      status: a.status,
+      layout: a.layout,
+      targetDevice: a.targetDevice,
+      updatedAt: a.updatedAt,
+      createdAt: a.createdAt,
+    }));
+
+  const draftArticles: DashboardArticle[] = articles
+    .filter((a) => a.status === "DRAFT")
+    .map((a) => ({
+      id: a.id,
+      title: a.title,
+      slug: a.slug,
+      categoryName: a.categoryName,
+      authorName: a.authorName,
+      status: a.status,
+      layout: a.layout,
+      targetDevice: a.targetDevice,
+      updatedAt: a.updatedAt,
+      createdAt: a.createdAt,
+    }));
 
   // Top 5 articles by views
   const topArticles = [...articles]
@@ -143,6 +181,14 @@ export default function AdminDashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Real-time Writer Activity & Pending Approval Queue */}
+      <WriterActivityOverview
+        initialReviewArticles={reviewArticles}
+        initialDraftArticles={draftArticles}
+        isAdmin={isAdmin}
+        currentUserId={session?.user?.id}
+      />
 
       {/* Grid: 7-Day Chart & Top 5 Articles */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

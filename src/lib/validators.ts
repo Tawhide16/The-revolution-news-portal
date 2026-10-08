@@ -9,6 +9,8 @@ export const articleSchema = z.object({
   categoryId: z.string().min(1, "Please select a category"),
   tags: z.array(z.string()).default([]),
   status: z.enum(["DRAFT", "REVIEW", "SCHEDULED", "PUBLISHED", "ARCHIVED"]).default("DRAFT"),
+  layout: z.enum(["standard", "hero", "two-column", "minimal"]).default("standard"),
+  targetDevice: z.enum(["both", "desktop", "mobile"]).default("both"),
   featured: z.boolean().default(false),
   breaking: z.boolean().default(false),
   scheduledAt: z.string().optional(),
@@ -29,7 +31,7 @@ export const tagSchema = z.object({
 export const userSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
-  role: z.enum(["ADMIN", "EDITOR", "AUTHOR"]),
+  role: z.enum(["ADMIN", "EDITOR", "AUTHOR", "WRITER"]),
   active: z.boolean().default(true),
   password: z.string().min(6, "Password must be at least 6 characters").optional(),
 });

@@ -97,12 +97,15 @@ export async function POST(req: NextRequest) {
       categoryId,
       tags,
       status,
+      layout,
+      targetDevice,
       featured,
       breaking,
     } = parsed.data;
 
+    const isWriter = userRole === "AUTHOR" || userRole === "WRITER";
     let finalStatus = status;
-    if (userRole === "AUTHOR" && (status === "PUBLISHED" || status === "SCHEDULED")) {
+    if (isWriter && (status === "PUBLISHED" || status === "SCHEDULED")) {
       finalStatus = "REVIEW";
     }
 
@@ -122,14 +125,16 @@ export async function POST(req: NextRequest) {
       summary,
       content: sanitizeArticleHtml(content),
       coverImage: coverImage || "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80",
+      layout: layout || "standard",
+      targetDevice: targetDevice || "both",
       categoryId,
       categoryName,
       categorySlug,
       authorId: userId,
       authorName: userName,
       status: finalStatus,
-      featured: userRole === "AUTHOR" ? false : featured,
-      breaking: userRole === "AUTHOR" ? false : breaking,
+      featured: isWriter ? false : featured,
+      breaking: isWriter ? false : breaking,
       views: 0,
       publishedAt: finalStatus === "PUBLISHED" ? new Date().toISOString() : "",
       createdAt: new Date().toISOString(),
@@ -140,7 +145,7 @@ export async function POST(req: NextRequest) {
     db.articles.unshift(newArticle);
     saveDb(db);
 
-    logAudit("CREATE", "Article", newArticle.id, userId, userName, `Created article "${title}"`);
+    logAudit("CREATE", "Article", newArticle.id, userId, userName, `Created article "${title}" with status ${finalStatus}`);
 
     return NextResponse.json({ success: true, article: newArticle }, { status: 201 });
   } catch (error) {
@@ -169,6 +174,35 @@ export async function PUT(req: NextRequest) {
     }
 
     const current = db.articles[index];
+
+    // Quick Admin Approval action
+    if (body.action === "approve") {
+      if (userRole !== "ADMIN" && userRole !== "EDITOR") {
+        return NextResponse.json({ success: false, error: "Only admins or editors can approve articles" }, { status: 403 });
+      }
+      current.status = "PUBLISHED";
+      current.publishedAt = current.publishedAt || new Date().toISOString();
+      current.updatedAt = new Date().toISOString();
+      db.articles[index] = current;
+      saveDb(db);
+      logAudit("PUBLISH", "Article", current.id, userId, userName, `Approved & published article "${current.title}"`);
+      return NextResponse.json({ success: true, article: current, message: "Article approved and published live!" });
+    }
+
+    // Quick Admin Reject/Send back to Draft action
+    if (body.action === "reject") {
+      if (userRole !== "ADMIN" && userRole !== "EDITOR") {
+        return NextResponse.json({ success: false, error: "Only admins can reject articles" }, { status: 403 });
+      }
+      current.status = "DRAFT";
+      current.updatedAt = new Date().toISOString();
+      db.articles[index] = current;
+      saveDb(db);
+      logAudit("UPDATE", "Article", current.id, userId, userName, `Moved article "${current.title}" back to draft for revisions`);
+      return NextResponse.json({ success: true, article: current, message: "Article moved to draft" });
+    }
+
+    const isWriter = userRole === "AUTHOR" || userRole === "WRITER";
     const canEdit = can({ role: userRole, id: userId }, "article:edit", {
       authorId: current.authorId,
       status: current.status,
@@ -195,12 +229,14 @@ export async function PUT(req: NextRequest) {
       categoryId,
       tags,
       status,
+      layout,
+      targetDevice,
       featured,
       breaking,
     } = parsed.data;
 
     let finalStatus = status;
-    if (userRole === "AUTHOR" && (status === "PUBLISHED" || status === "SCHEDULED")) {
+    if (isWriter && (status === "PUBLISHED" || status === "SCHEDULED")) {
       finalStatus = "REVIEW";
     }
 
@@ -213,13 +249,15 @@ export async function PUT(req: NextRequest) {
       summary,
       content: sanitizeArticleHtml(content),
       coverImage: coverImage || current.coverImage,
+      layout: layout || current.layout || "standard",
+      targetDevice: targetDevice || current.targetDevice || "both",
       categoryId,
       categoryName: category ? category.name : current.categoryName,
       categorySlug: category ? category.slug : current.categorySlug,
       tags: tags || current.tags,
       status: finalStatus,
-      featured: userRole === "AUTHOR" ? current.featured : featured,
-      breaking: userRole === "AUTHOR" ? current.breaking : breaking,
+      featured: isWriter ? current.featured : featured,
+      breaking: isWriter ? current.breaking : breaking,
       publishedAt:
         finalStatus === "PUBLISHED" && !current.publishedAt
           ? new Date().toISOString()
@@ -230,7 +268,8 @@ export async function PUT(req: NextRequest) {
     db.articles[index] = updated;
     saveDb(db);
 
-    logAudit("UPDATE", "Article", updated.id, userId, userName, `Updated article "${title}"`);
+    const auditAction = finalStatus === "PUBLISHED" && current.status !== "PUBLISHED" ? "PUBLISH" : "UPDATE";
+    logAudit(auditAction, "Article", updated.id, userId, userName, `Updated article "${title}" (${finalStatus})`);
 
     return NextResponse.json({ success: true, article: updated });
   } catch (error) {

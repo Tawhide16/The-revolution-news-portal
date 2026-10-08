@@ -376,5 +376,39 @@
       "createdAt": "2026-10-07T08:30:00.000Z",
       "details": "Submitted article 'Offshore Financial Flows' for REVIEW"
     }
+  ],
+  "users": [
+    {
+      "id": "u-1",
+      "name": "Admin Chief",
+      "email": "admin@example.com",
+      "role": "ADMIN",
+      "active": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "u-2",
+      "name": "Elena Rostova",
+      "email": "editor@example.com",
+      "role": "EDITOR",
+      "active": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "u-3",
+      "name": "Marcus Chen",
+      "email": "author@example.com",
+      "role": "AUTHOR",
+      "active": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "u-4",
+      "name": "Sarah Writer",
+      "email": "writer@example.com",
+      "role": "WRITER",
+      "active": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    }
   ]
 }

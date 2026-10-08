@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import BreakingTicker from "@/components/layout/BreakingTicker";
-import { getDb } from "@/lib/store";
+import { getDb, StoredArticle } from "@/lib/store";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -232,7 +232,7 @@ export default function ArticleDetailPage({
   );
 }
 
-function renderRelatedStories(related: any[], categoryName: string) {
+function renderRelatedStories(related: StoredArticle[], categoryName: string) {
   return (
     <div className="pt-10 mt-12 border-t-2 border-[#1A1A1A]">
       <h3 className="font-serif font-bold text-xl text-[#1A1A1A] mb-6">

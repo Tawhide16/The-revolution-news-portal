@@ -733,15 +733,15 @@ export default function ArticleEditorForm({
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: "standard", label: "Standard", desc: "Classic Broadsheet" },
-                  { id: "hero", label: "Hero Banner", desc: "Full-width Visual" },
-                  { id: "two-column", label: "Two-Column", desc: "Newspaper Print" },
-                  { id: "minimal", label: "Minimalist", desc: "Clean Longform" },
+                  { id: "standard" as const, label: "Standard", desc: "Classic Broadsheet" },
+                  { id: "hero" as const, label: "Hero Banner", desc: "Full-width Visual" },
+                  { id: "two-column" as const, label: "Two-Column", desc: "Newspaper Print" },
+                  { id: "minimal" as const, label: "Minimalist", desc: "Clean Longform" },
                 ].map((l) => (
                   <button
                     key={l.id}
                     type="button"
-                    onClick={() => setFormData({ ...formData, layout: l.id as any })}
+                    onClick={() => setFormData({ ...formData, layout: l.id })}
                     className={`p-2.5 text-left border rounded transition-all ${
                       formData.layout === l.id
                         ? "border-[#B80000] bg-red-50/50 text-[#B80000] ring-1 ring-[#B80000]"
@@ -762,16 +762,16 @@ export default function ArticleEditorForm({
               </label>
               <div className="space-y-1.5">
                 {[
-                  { id: "both", label: "Both (Mobile & Desktop)", icon: Sparkles, desc: "Adaptive responsive view" },
-                  { id: "desktop", label: "Desktop Optimized", icon: Monitor, desc: "Curated for wide screens" },
-                  { id: "mobile", label: "Mobile First", icon: Smartphone, desc: "Compact handheld format" },
+                  { id: "both" as const, label: "Both (Mobile & Desktop)", icon: Sparkles, desc: "Adaptive responsive view" },
+                  { id: "desktop" as const, label: "Desktop Optimized", icon: Monitor, desc: "Curated for wide screens" },
+                  { id: "mobile" as const, label: "Mobile First", icon: Smartphone, desc: "Compact handheld format" },
                 ].map((dev) => {
                   const Icon = dev.icon;
                   const isSelected = (formData.targetDevice || "both") === dev.id;
                   return (
                     <label
                       key={dev.id}
-                      onClick={() => setFormData({ ...formData, targetDevice: dev.id as any })}
+                      onClick={() => setFormData({ ...formData, targetDevice: dev.id })}
                       className={`flex items-center gap-2.5 p-2 border rounded cursor-pointer transition-colors ${
                         isSelected
                           ? "border-[#B80000] bg-red-50/40 text-neutral-900"
@@ -782,7 +782,7 @@ export default function ArticleEditorForm({
                         type="radio"
                         name="targetDevice"
                         checked={isSelected}
-                        onChange={() => setFormData({ ...formData, targetDevice: dev.id as any })}
+                        onChange={() => setFormData({ ...formData, targetDevice: dev.id })}
                         className="text-[#B80000] focus:ring-[#B80000]"
                       />
                       <Icon className={`w-3.5 h-3.5 ${isSelected ? "text-[#B80000]" : "text-neutral-500"}`} />

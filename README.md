@@ -1,7 +1,7 @@
 # 📰 The Revolution | Modern Digital Broadsheet & Editorial Newsroom
 
 <p align="center">
-  <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80" alt="The Revolution News Portal Banner" width="100%" style="border-radius: 6px; max-height: 380px; object-fit: cover;" />
+  <img src="./public/preview.png" alt="The Revolution News Portal Preview" width="100%" style="border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);" />
 </p>
 
 <p align="center">

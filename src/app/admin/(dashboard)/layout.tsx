@@ -17,6 +17,7 @@ import {
   Shield,
   Menu,
   X,
+  TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
 import SessionWrapper from "@/components/admin/SessionWrapper";
@@ -49,6 +50,8 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       show: userRole === "ADMIN" || userRole === "EDITOR",
     },
     { name: "Media Library", href: "/admin/media", icon: ImageIcon, show: true },
+    { name: "Live Stock Market", href: "/markets", icon: TrendingUp, show: true },
+    { name: "Stock Movers", href: "/stock-movers", icon: TrendingUp, show: true },
     { name: "Users & Roles", href: "/admin/users", icon: Users, show: userRole === "ADMIN" },
     { name: "Site Settings", href: "/admin/settings", icon: Settings, show: userRole === "ADMIN" },
     {

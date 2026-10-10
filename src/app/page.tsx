@@ -19,8 +19,8 @@ export default function HomePage() {
       {/* 2. Red Breaking News Pulse Ticker */}
       <BreakingTicker />
 
-      {/* 3. Main Editorial Broadsheet Canvas */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      {/* 3. Main Editorial Broadsheet Canvas (1400px max width) */}
+      <main className="flex-1 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Row 1: 3-Column Broadsheet Hero (Lead + Left 2 + Right 3) */}
         <HeroSection />
 

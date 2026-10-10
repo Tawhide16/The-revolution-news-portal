@@ -23,6 +23,10 @@ const config: Config = {
         serif: ["Merriweather", "Georgia", "Cambria", "Times New Roman", "serif"],
         sans: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
       },
+      maxWidth: {
+        "7xl": "1400px",
+        site: "1400px",
+      },
     },
   },
   plugins: [],

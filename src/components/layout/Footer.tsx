@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDb } from "@/lib/store";
+import LanguageTranslator from "./LanguageTranslator";
 
 export default function Footer() {
   const db = getDb();
@@ -19,7 +20,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1A1A1A] text-white border-t-4 border-[#B80000] mt-16 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Top Brand & Mission */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between pb-8 border-b border-neutral-700 gap-6">
           <Link href="/" className="flex items-center gap-1.5 group hover:opacity-90 transition-opacity">
@@ -39,8 +40,13 @@ export default function Footer() {
             </span>
           </Link>
 
-          <div className="text-xs text-neutral-400">
-            {db.settings?.tagline || "Independent, fearless public-interest journalism since inception."}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="text-xs text-neutral-400">
+              {db.settings?.tagline || "Independent, fearless public-interest journalism since inception."}
+            </div>
+            <div className="bg-neutral-800 rounded px-2 py-1 flex items-center border border-neutral-700">
+              <LanguageTranslator compact={false} />
+            </div>
           </div>
         </div>
 

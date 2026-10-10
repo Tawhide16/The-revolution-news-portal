@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Search, User, Menu, X, Shield, LayoutDashboard, LogOut } from "lucide-react";
+import LanguageTranslator from "./LanguageTranslator";
 
 interface NavCategory {
   id: string;
@@ -65,7 +66,7 @@ export default function Header() {
     <header className="bg-white border-b border-[#E2E2E2] sticky top-0 z-50">
       {/* Top Utility Bar */}
       <div className="border-b border-[#EEEEEE] bg-[#FAFAFA] text-xs text-neutral-600 hidden sm:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="font-medium text-neutral-800">
               {new Date().toLocaleDateString("en-US", {
@@ -77,6 +78,8 @@ export default function Header() {
             </span>
             <span className="text-neutral-300">|</span>
             <span className="text-neutral-500">Global Edition</span>
+            <span className="text-neutral-300">|</span>
+            <LanguageTranslator />
           </div>
 
           <div className="flex items-center gap-4">
@@ -116,7 +119,7 @@ export default function Header() {
       </div>
 
       {/* Main Brand Bar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Mobile menu button */}
           <div className="flex items-center gap-3 lg:hidden">
@@ -162,6 +165,11 @@ export default function Header() {
               </span>
             </button>
 
+            {/* Language Translator on mobile/tablet view */}
+            <div className="sm:hidden">
+              <LanguageTranslator compact={true} />
+            </div>
+
             {isLoggedIn ? (
               <Link
                 href="/admin"
@@ -205,7 +213,7 @@ export default function Header() {
 
       {/* Primary Category Navigation Bar */}
       <nav className="border-t border-[#E2E2E2] bg-white hidden lg:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <ul className="flex items-center space-x-1 overflow-x-auto scrollbar-none">
             <li>
               <Link
@@ -225,6 +233,33 @@ export default function Header() {
                 </Link>
               </li>
             ))}
+
+            {/* Live Stock Market Tab */}
+            <li>
+              <Link
+                href="/markets"
+                className="inline-flex items-center gap-1.5 py-2.5 px-3 text-sm font-semibold tracking-normal text-[#1A1A1A] hover:text-[#B80000] hover:border-b-2 hover:border-[#B80000] transition-colors group"
+              >
+                <span>Stock Market</span>
+              </Link>
+            </li>
+
+            {/* Stock Movers Tab */}
+            <li>
+              <Link
+                href="/stock-movers"
+                className="inline-flex items-center gap-1.5 py-2.5 px-3 text-sm font-semibold tracking-normal text-[#1A1A1A] hover:text-[#B80000] hover:border-b-2 hover:border-[#B80000] transition-colors group"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                </span>
+                <span>Stock Movers</span>
+                <span className="text-[10px] bg-[#B80000] text-white font-mono uppercase px-1.5 py-0.2 rounded-xs">
+                  Live
+                </span>
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
@@ -232,12 +267,44 @@ export default function Header() {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-[#E2E2E2] bg-white px-4 py-4 space-y-2">
+          {/* Mobile Language Selector */}
+          <div className="flex items-center justify-between pb-3 mb-2 border-b border-neutral-100">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">Language</span>
+            <LanguageTranslator compact={true} />
+          </div>
+
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 px-3 text-base font-semibold text-[#B80000] hover:bg-[#F2F2F2] rounded"
           >
             Home
+          </Link>
+          <Link
+            href="/stock-movers"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between py-2 px-3 text-base font-semibold text-[#1A1A1A] hover:text-[#B80000] hover:bg-[#F2F2F2] rounded"
+          >
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Stock Movers</span>
+            </span>
+            <span className="text-xs font-mono font-bold text-white bg-[#B80000] px-2 py-0.5 rounded">
+              Live Data
+            </span>
+          </Link>
+          <Link
+            href="/markets"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between py-2 px-3 text-base font-semibold text-[#1A1A1A] hover:text-[#B80000] hover:bg-[#F2F2F2] rounded"
+          >
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-neutral-400"></span>
+              <span>Stock Market (Quotes)</span>
+            </span>
+            <span className="text-xs font-mono font-bold text-neutral-700 bg-neutral-100 px-2 py-0.5 rounded">
+              All
+            </span>
           </Link>
           {categories.map((item) => (
             <Link

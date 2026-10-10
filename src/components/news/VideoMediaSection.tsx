@@ -6,7 +6,7 @@ import { VIDEO_STORIES } from "@/data/mockNews";
 export default function VideoMediaSection() {
   return (
     <section className="bg-[#121212] text-white py-10 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 my-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         {/* Section Header */}
         <div className="flex items-center justify-between pb-4 border-b border-neutral-800 mb-6">
           <div className="flex items-center gap-3">

@@ -24,7 +24,7 @@ export default function BreakingTicker() {
 
   return (
     <div className="bg-[#B80000] text-white py-2 px-4 text-sm font-medium">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <div className="max-w-[1400px] mx-auto flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
         <div className="flex items-center gap-2 shrink-0">
           <span className="flex h-2.5 w-2.5 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>

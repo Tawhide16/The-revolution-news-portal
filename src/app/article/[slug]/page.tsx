@@ -32,7 +32,7 @@ export default function ArticleDetailPage({
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-sans selection:bg-[#B80000] selection:text-white">
+    <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-serif selection:bg-[#B80000] selection:text-white">
       <Header />
       <BreakingTicker />
 
@@ -63,7 +63,7 @@ export default function ArticleDetailPage({
                 {article.title}
               </h1>
 
-              <p className="text-lg sm:text-xl text-neutral-200 font-sans leading-relaxed max-w-3xl font-light">
+              <p className="text-lg sm:text-xl text-neutral-200 font-serif leading-relaxed max-w-3xl font-light">
                 {article.summary}
               </p>
 

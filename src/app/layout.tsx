@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather } from "next/font/google";
+import { Inter, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "@/components/admin/SessionWrapper";
+
+const notoSerif = Noto_Serif({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  variable: "--font-noto-serif",
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  display: "swap",
-});
-
-const merriweather = Merriweather({
-  weight: ["300", "400", "700", "900"],
-  subsets: ["latin"],
-  variable: "--font-merriweather",
   display: "swap",
 });
 
@@ -34,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${merriweather.variable}`}>
+    <html lang="en" className={`${notoSerif.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-white text-[#1A1A1A] antialiased">
         <SessionWrapper>{children}</SessionWrapper>
       </body>

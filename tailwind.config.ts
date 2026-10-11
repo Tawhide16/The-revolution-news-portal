@@ -20,8 +20,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["Merriweather", "Georgia", "Cambria", "Times New Roman", "serif"],
-        sans: ["Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        serif: ["var(--font-noto-serif)", "Noto Serif", "Georgia", '"Times New Roman"', "Times", "serif"],
+        sans: ["var(--font-noto-serif)", "Noto Serif", "Georgia", '"Times New Roman"', "Times", "serif"],
+        editorial: ["var(--font-noto-serif)", "Noto Serif", "Georgia", '"Times New Roman"', "Times", "serif"],
+        ui: ["var(--font-inter)", "Inter", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
       },
       maxWidth: {
         "7xl": "1400px",

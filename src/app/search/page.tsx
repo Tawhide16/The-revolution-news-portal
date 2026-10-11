@@ -28,7 +28,7 @@ export default function SearchPage({
     : [];
 
   return (
-    <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-sans selection:bg-[#B80000] selection:text-white">
+    <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-serif selection:bg-[#B80000] selection:text-white">
       <Header />
       <BreakingTicker />
 

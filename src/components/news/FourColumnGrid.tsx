@@ -3,59 +3,59 @@ import Image from "next/image";
 
 const COLUMNS = [
   {
-    category: "World",
-    slug: "world",
+    category: "Bangladesh",
+    slug: "bangladesh",
     lead: {
-      title: "Alpine Glaciers Recede at Twice Forecast Rate",
-      slug: "alpine-glaciers-recede-twice-forecast-rate",
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=500&q=80",
-      time: "3 hrs ago",
+      title: "Interim Government Unveils Roadmap for Electoral Reforms",
+      slug: "interim-government-comprehensive-roadmap-electoral-constitutional-reforms",
+      image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=500&q=80",
+      time: "2 hrs ago",
     },
     links: [
-      { title: "Mediterranean water levels reach historic highs", slug: "mediterranean-water-levels", time: "5 hrs ago" },
-      { title: "Diplomats meet in Rome for bilateral security accord", slug: "diplomats-meet-rome", time: "8 hrs ago" },
+      { title: "Dhaka Metro Rail Line-6 expands evening services", slug: "dhaka-metro-rail-mrt-6-extends-evening-services", time: "3 hrs ago" },
+      { title: "Padma Bridge rail corridor accelerates freight trade", slug: "padma-bridge-rail-corridor-freight-logistics-regional-trade", time: "5 hrs ago" },
     ],
   },
   {
     category: "Politics",
     slug: "politics",
     lead: {
-      title: "Cabinet Approves Historic Digital Bill of Rights",
-      slug: "cabinet-approves-digital-bill-of-rights",
-      image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=500&q=80",
-      time: "2 hrs ago",
-    },
-    links: [
-      { title: "Cross-party coalition debates fiscal deficit measures", slug: "coalition-debates-deficit", time: "4 hrs ago" },
-      { title: "Electoral reform panel issues preliminary recommendations", slug: "electoral-reform-panel", time: "7 hrs ago" },
-    ],
-  },
-  {
-    category: "Tech",
-    slug: "tech",
-    lead: {
-      title: "Next-Generation Optical Computers Enter Commercial Pilots",
-      slug: "optical-computers-commercial-pilots",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80",
-      time: "1 hr ago",
-    },
-    links: [
-      { title: "Autonomous cargo vessels complete transatlantic voyage", slug: "autonomous-cargo-vessels", time: "6 hrs ago" },
-      { title: "Synthetic biology lab synthesizes resilient crop genes", slug: "synthetic-biology-crop-genes", time: "9 hrs ago" },
-    ],
-  },
-  {
-    category: "Culture & Sports",
-    slug: "culture",
-    lead: {
-      title: "Biennale Celebrates Century of Avant-Garde Expression",
-      slug: "biennale-celebrates-avant-garde",
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=500&q=80",
+      title: "National Consensus Dialogue: Political Factions Deliberate in Dhaka",
+      slug: "national-consensus-dialogue-political-parties-deliberate-dhaka",
+      image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a62f?auto=format&fit=crop&w=500&q=80",
       time: "4 hrs ago",
     },
     links: [
-      { title: "National tennis academy unveils state-of-the-art facility", slug: "national-tennis-academy", time: "7 hrs ago" },
-      { title: "Restored silent cinema masterpiece premieres in Venice", slug: "restored-silent-cinema-venice", time: "10 hrs ago" },
+      { title: "Judicial overhaul: High Court reconstitutes public interest benches", slug: "interim-government-comprehensive-roadmap-electoral-constitutional-reforms", time: "6 hrs ago" },
+      { title: "Supreme Court delivers landmark ruling on algorithmic privacy", slug: "supreme-court-landmark-ruling-algorithmic-privacy", time: "8 hrs ago" },
+    ],
+  },
+  {
+    category: "Business",
+    slug: "business",
+    lead: {
+      title: "Remittance Inflows Surge to $2.4B Amid Banking Stabilisation",
+      slug: "bangladesh-remittance-inflows-surge-banking-stabilisation",
+      image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=500&q=80",
+      time: "1 hr ago",
+    },
+    links: [
+      { title: "RMG sector expands green manufacturing with 250+ eco-factories", slug: "rmg-industry-green-manufacturing-leed-certified-factories", time: "3 hrs ago" },
+      { title: "Central banks signal coordinated shift toward interest rate reductions", slug: "central-banks-signal-coordinated-interest-rate-reductions", time: "7 hrs ago" },
+    ],
+  },
+  {
+    category: "Sports & Tech",
+    slug: "sports",
+    lead: {
+      title: "BCB Announces Overhauled Domestic Structure for Tigers",
+      slug: "bcb-appoints-new-coaching-panel-test-championship",
+      image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=500&q=80",
+      time: "2 hrs ago",
+    },
+    links: [
+      { title: "Bangladesh Women's cricket team seals regional series victory", slug: "bangladesh-womens-cricket-team-dominates-regional-series", time: "4 hrs ago" },
+      { title: "Dhaka tech hubs surge as software export revenues target $5B", slug: "dhaka-tech-hubs-bangladesh-it-freelance-software-export", time: "6 hrs ago" },
     ],
   },
 ];

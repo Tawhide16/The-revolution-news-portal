@@ -13,6 +13,7 @@ interface NavCategory {
 }
 
 const DEFAULT_CATEGORIES: NavCategory[] = [
+  { id: "c-0", name: "Bangladesh", slug: "bangladesh" },
   { id: "c-1", name: "World", slug: "world" },
   { id: "c-2", name: "Politics", slug: "politics" },
   { id: "c-3", name: "Business", slug: "business" },

@@ -7,16 +7,60 @@
   --foreground: #1A1A1A;
   --primary-red: #B80000;
   --light-grey: #F2F2F2;
+  --font-stack-serif: var(--font-noto-serif), "Noto Serif", Georgia, "Times New Roman", Times, serif;
 }
 
+html,
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-inter, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-family: var(--font-stack-serif);
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-merriweather, 'Merriweather', 'Georgia', serif);
+  font-family: var(--font-stack-serif);
+  font-feature-settings: "kern" 1;
+  letter-spacing: -0.012em;
+}
+
+h1 {
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+h2 {
+  line-height: 1.22;
+  font-weight: 700;
+}
+
+h3 {
+  line-height: 1.28;
+  font-weight: 700;
+}
+
+h4, h5, h6 {
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.68;
+}
+
+/* Ensure inputs, buttons, and form elements inherit typography cleanly */
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+/* Authentic broadsheet editorial prose styling */
+.prose,
+article,
+.article-content {
+  font-family: var(--font-stack-serif);
 }
 
 @layer utilities {

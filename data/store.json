@@ -3,8 +3,8 @@
     "siteName": "The Revolution",
     "tagline": "Fearless, independent public-interest journalism",
     "breakingEnabled": true,
-    "breakingCustomText": "Global leaders reach emergency climate accord after marathon negotiations in Geneva",
-    "breakingUrl": "/article/historic-peace-treaty-signed-border-talks-conclude",
+    "breakingCustomText": "Interim Government unveils comprehensive roadmap for electoral and constitutional reforms in Dhaka",
+    "breakingUrl": "/article/interim-government-comprehensive-roadmap-electoral-constitutional-reforms",
     "contactEmail": "editor@revolution.news",
     "twitterUrl": "https://twitter.com/revolution_news",
     "facebookUrl": "https://facebook.com/revolution_news",
@@ -13,6 +13,13 @@
     "newsletterDescription": "Get essential global analysis delivered to your inbox every dawn."
   },
   "categories": [
+    {
+      "id": "cat-0",
+      "name": "Bangladesh",
+      "slug": "bangladesh",
+      "description": "National affairs, political reforms, economic developments, and cultural reporting from Bangladesh",
+      "order": 0
+    },
     {
       "id": "cat-1",
       "name": "World",
@@ -109,7 +116,7 @@
       "email": "admin@example.com",
       "role": "ADMIN",
       "active": true,
-      "createdAt": "2026-10-07T09:54:41.922Z"
+      "createdAt": "2026-10-07T08:00:00.000Z"
     },
     {
       "id": "u-2",
@@ -117,7 +124,7 @@
       "email": "editor@example.com",
       "role": "EDITOR",
       "active": true,
-      "createdAt": "2026-10-07T09:54:41.922Z"
+      "createdAt": "2026-10-07T08:00:00.000Z"
     },
     {
       "id": "u-3",
@@ -125,7 +132,31 @@
       "email": "author@example.com",
       "role": "AUTHOR",
       "active": true,
-      "createdAt": "2026-10-07T09:54:41.922Z"
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "u-4",
+      "name": "Sarah Writer",
+      "email": "writer@example.com",
+      "role": "WRITER",
+      "active": true,
+      "createdAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "u-5",
+      "name": "Tanvir Ahmed",
+      "email": "tanvir.ahmed@revolution.news",
+      "role": "EDITOR",
+      "active": true,
+      "createdAt": "2026-10-08T08:00:00.000Z"
+    },
+    {
+      "id": "u-6",
+      "name": "Nusrat Jahan",
+      "email": "nusrat.jahan@revolution.news",
+      "role": "AUTHOR",
+      "active": true,
+      "createdAt": "2026-10-08T08:00:00.000Z"
     }
   ],
   "media": [
@@ -168,6 +199,301 @@
   ],
   "articles": [
     {
+      "id": "art-bd-1",
+      "title": "Interim Government Unveils Comprehensive Roadmap for Electoral and Constitutional Reforms",
+      "slug": "interim-government-comprehensive-roadmap-electoral-constitutional-reforms",
+      "summary": "Chief Adviser Prof. Muhammad Yunus coordinates high-level reform commissions focusing on judicial autonomy, electoral integrity, and civil administration overhaul across Bangladesh.",
+      "content": "<p><strong>DHAKA &mdash;</strong> In a landmark national address delivered from the state guesthouse Jamuna, Chief Adviser Prof. Muhammad Yunus outlined a structured, time-bound roadmap for sweeping state reforms, emphasizing institutional integrity, independent judiciary mechanisms, and transparent electoral processes.</p>\n<p>The six specialized reform commissions&mdash;overseeing the constitution, electoral system, judiciary, police administration, anti-corruption apparatus, and public administration&mdash;have commenced formal consultative sessions with legal scholars, youth representatives, and civic leaders across all eight administrative divisions.</p>\n<blockquote>&ldquo;Our historic responsibility is to ensure that the democratic institutions of Bangladesh are rebuilt upon unshakeable foundations of accountability, civil dignity, and justice,&rdquo; Prof. Yunus stated during his briefing.</blockquote>\n<p>Senior diplomatic envoys and international development partners have expressed full backing for the interim administration&rsquo;s stabilization agenda. Consultations with registered political factions are scheduled to continue in phases to establish consensus on free, participatory elections following the consolidation of core institutional safeguards.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-0",
+      "categoryName": "Bangladesh",
+      "categorySlug": "bangladesh",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": true,
+      "breaking": true,
+      "views": 28400,
+      "publishedAt": "2026-10-10T08:00:00.000Z",
+      "createdAt": "2026-10-10T07:00:00.000Z",
+      "updatedAt": "2026-10-10T08:00:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Interim Government",
+        "Reforms",
+        "Politics",
+        "Constitution"
+      ]
+    },
+    {
+      "id": "art-bd-2",
+      "title": "Bangladesh Remittance Inflows Surge to Record $2.4 Billion Monthly Amid Banking Sector Stability",
+      "slug": "bangladesh-remittance-inflows-surge-banking-stabilisation",
+      "summary": "Expatriate earnings hit milestone highs following transparent market-based exchange rate mechanisms and governance reforms spearheaded by Bangladesh Bank.",
+      "content": "<p><strong>DHAKA &mdash;</strong> Inward remittances sent by non-resident Bangladeshis reached an unprecedented $2.4 billion over the past month, marking a decisive surge that has significantly strengthened foreign exchange reserves and stabilized the national currency.</p>\n<p>Banking analysts attribute the turnaround to rigorous enforcement by Bangladesh Bank Governor Dr. Ahsan H. Mansur, who introduced transparent interbank currency trading, dismantled informal money laundering syndicates, and instituted board-level restructuring across struggling commercial lenders.</p>\n<blockquote>&ldquo;Expatriates have demonstrated enormous faith in the reformed formal banking channels. Fair market exchange rates and swift transaction clearance have incentivised millions of wage earners to remit through legitimate banking networks,&rdquo; remarked a senior Bangladesh Bank official.</blockquote>\n<p>The influx has provided vital fiscal headroom for essential fuel imports and food security stockpiling while reinforcing the nation's balance of payments position ahead of international debt service commitments.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-3",
+      "categoryName": "Business",
+      "categorySlug": "business",
+      "authorId": "u-6",
+      "authorName": "Nusrat Jahan",
+      "status": "PUBLISHED",
+      "featured": true,
+      "breaking": false,
+      "views": 21300,
+      "publishedAt": "2026-10-10T07:30:00.000Z",
+      "createdAt": "2026-10-10T06:30:00.000Z",
+      "updatedAt": "2026-10-10T07:30:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Economy",
+        "Banking",
+        "Remittance",
+        "Business"
+      ]
+    },
+    {
+      "id": "art-bd-3",
+      "title": "Readymade Garment Industry Expands Green Manufacturing with Over 250 LEED-Certified Eco-Factories",
+      "slug": "rmg-industry-green-manufacturing-leed-certified-factories",
+      "summary": "Bangladeshi apparel exporters cement global supremacy in sustainable textile production, securing major long-term export orders from European and North American retail giants.",
+      "content": "<p><strong>GAZIPUR &mdash;</strong> Bangladesh has crossed another historic sustainability milestone, with the US Green Building Council (USGBC) certifying its 250th platinum and gold LEED-compliant apparel manufacturing plant, cementing the country&rsquo;s position as the world&rsquo;s most eco-friendly textile hub.</p>\n<p>Over sixty of the globe&rsquo;s top one hundred green industrial facilities are now located across Gazipur, Narayanganj, and Chattogram. These cutting-edge factories utilize zero-liquid-discharge (ZLD) effluent plants, solar rooftop arrays, and rainwater harvesting that reduce overall water consumption by up to 50 percent.</p>\n<p>BGMEA leaders emphasized that international buyers are increasingly prioritising environmental compliance and carbon disclosures, placing Bangladeshi manufacturers in a commanding competitive tier against regional rivals.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-3",
+      "categoryName": "Business",
+      "categorySlug": "business",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 16500,
+      "publishedAt": "2026-10-10T06:45:00.000Z",
+      "createdAt": "2026-10-10T05:30:00.000Z",
+      "updatedAt": "2026-10-10T06:45:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "RMG",
+        "Export",
+        "Economy",
+        "Sustainability"
+      ]
+    },
+    {
+      "id": "art-bd-4",
+      "title": "BCB Announces Overhauled Domestic Structure as National Cricket Team Gears Up for Test Series",
+      "slug": "bcb-appoints-new-coaching-panel-test-championship",
+      "summary": "The Bangladesh Cricket Board introduces performance-linked contracts and upgraded pitches while Captain Najmul Hossain Shanto leads intense preparatory camps in Mirpur.",
+      "content": "<p><strong>MIRPUR, DHAKA &mdash;</strong> In a comprehensive restructuring of the country's premier sport, the Bangladesh Cricket Board (BCB) unveiled enhanced financial packages and sporting wickets for the National Cricket League (NCL) and Dhaka Premier League, aiming to build long-term test match endurance.</p>\n<p>At the Sher-e-Bangla National Stadium, the national squad underwent high-intensity red-ball training sessions under the supervision of newly appointed coaching personnel. Captain Najmul Hossain Shanto praised the squad's bowling depth, pointing to emerging seamers capable of generating consistent pace on away tours.</p>\n<blockquote>&ldquo;Our focus is cultivating ruthless discipline in the longer format. The domestic circuit is being recalibrated to mirror international challenges,&rdquo; Shanto told sports reporters.</blockquote>",
+      "coverImage": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-6",
+      "categoryName": "Sports",
+      "categorySlug": "sports",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 24700,
+      "publishedAt": "2026-10-10T06:00:00.000Z",
+      "createdAt": "2026-10-10T05:00:00.000Z",
+      "updatedAt": "2026-10-10T06:00:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Cricket",
+        "BCB",
+        "Sports",
+        "Tigers"
+      ]
+    },
+    {
+      "id": "art-bd-5",
+      "title": "Dhaka Metro Rail MRT Line-6 Adds Night Services to Meet High Commuter Volumes",
+      "slug": "dhaka-metro-rail-mrt-6-extends-evening-services",
+      "summary": "Mass Rapid Transit Authority expands operating hours between Motijheel and Uttara North, reducing rush-hour gridlock and recording daily ridership above 350,000.",
+      "content": "<p><strong>DHAKA &mdash;</strong> The Dhaka Mass Transit Company Limited (DMTCL) has officially expanded daily train frequencies along the entire 20-kilometer MRT Line-6 corridor, introducing train intervals of under five minutes during peak morning and evening intervals.</p>\n<p>Commuters traversing the bustling capital from northern suburbs to the southern commercial core at Motijheel now complete their journeys in under thirty-five minutes, bypassing traditional multi-hour surface traffic snarls.</p>\n<p>Authorities confirmed that work on the southern extension toward Kamalapur railway terminal is progressing on schedule, promising seamless interchange between inter-district trains and the metro network by next year.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-0",
+      "categoryName": "Bangladesh",
+      "categorySlug": "bangladesh",
+      "authorId": "u-6",
+      "authorName": "Nusrat Jahan",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 19100,
+      "publishedAt": "2026-10-10T05:15:00.000Z",
+      "createdAt": "2026-10-10T04:15:00.000Z",
+      "updatedAt": "2026-10-10T05:15:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Dhaka",
+        "Metro Rail",
+        "Infrastructure"
+      ]
+    },
+    {
+      "id": "art-bd-6",
+      "title": "National Consensus Dialogue: Political Parties Deliberate on Institutional Transition in Dhaka",
+      "slug": "national-consensus-dialogue-political-parties-deliberate-dhaka",
+      "summary": "Representatives of major political parties and civic coalitions gather in Dhaka to forge consensus on constitutional safeguards and judicial autonomy.",
+      "content": "<p><strong>DHAKA &mdash;</strong> Round-table deliberations between the interim administration, prominent political factions, and constitutional scholars continued in Dhaka today, focusing on establishing legal guardrails that prevent future executive overreach.</p>\n<p>Discussions centered on depoliticising law enforcement bodies, reforming the Election Commission appointment procedures, and strengthening parliamentary standing committees.</p>\n<p>Civil society spokespersons commended the open atmosphere of dialogue, describing it as the most inclusive democratic consultation held in the country in several decades.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1529107386315-e1a2ed48a62f?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-2",
+      "categoryName": "Politics",
+      "categorySlug": "politics",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 18200,
+      "publishedAt": "2026-10-10T04:30:00.000Z",
+      "createdAt": "2026-10-10T03:30:00.000Z",
+      "updatedAt": "2026-10-10T04:30:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Politics",
+        "Dialogue",
+        "Governance"
+      ]
+    },
+    {
+      "id": "art-bd-7",
+      "title": "Dhaka Tech Hubs Surge as Freelance and Software Export Revenues Target $5 Billion Milestone",
+      "slug": "dhaka-tech-hubs-bangladesh-it-freelance-software-export",
+      "summary": "Young software engineers, AI developers, and tech entrepreneurs drive a rapid expansion in software services, foreign remittances, and venture funding.",
+      "content": "<p><strong>DHAKA &mdash;</strong> Spurred by a dynamic demographic of young computer science graduates and self-taught tech developers, Bangladesh's information technology and software services sector is recording double-digit export expansion.</p>\n<p>Software development hubs in Banani, Mohakhali, and the Janata Tower Software Technology Park are servicing enterprise clients across Europe, North America, and East Asia, delivering cloud infrastructure, custom machine learning applications, and cybersecurity auditing.</p>\n<p>The Bangladesh Association of Software and Information Services (BASIS) noted that digital payments integration and stable foreign currency accounts have enabled individual freelancers to repatriate international client earnings with greater ease and transparency than ever before.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-4",
+      "categoryName": "Tech",
+      "categorySlug": "tech",
+      "authorId": "u-3",
+      "authorName": "Marcus Chen",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 15800,
+      "publishedAt": "2026-10-09T18:00:00.000Z",
+      "createdAt": "2026-10-09T17:00:00.000Z",
+      "updatedAt": "2026-10-09T18:00:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Tech",
+        "Freelancing",
+        "Software",
+        "Innovation"
+      ]
+    },
+    {
+      "id": "art-bd-8",
+      "title": "Delta Plan 2100: Coastal Embankments Fortify Sundarbans Belt Against Tidal Surges",
+      "slug": "delta-plan-2100-coastal-embankment-sundarbans-tidal-surges",
+      "summary": "Engineers and environmentalists deploy nature-based mangrove fortifications and geotextile dykes to protect vulnerable communities across Khulna and Barishal.",
+      "content": "<p><strong>KHULNA &mdash;</strong> Groundbreaking adaptive infrastructure projects funded under the Bangladesh Delta Plan 2100 are reshaping cyclone resilience along the southern coastal shoreline.</p>\n<p>Combining heavy-duty earthwork embankments with massive mangrove afforestation belts along the Sundarbans periphery, the initiative cushions coastal villages from high tidal surges during autumnal weather depressions.</p>\n<p>Local community water management groups have been empowered to regulate sluice gates, safeguarding freshwater aquaculture and seasonal winter crops from salt-water intrusion.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-5",
+      "categoryName": "Science",
+      "categorySlug": "science",
+      "authorId": "u-6",
+      "authorName": "Nusrat Jahan",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 12900,
+      "publishedAt": "2026-10-09T16:20:00.000Z",
+      "createdAt": "2026-10-09T15:00:00.000Z",
+      "updatedAt": "2026-10-09T16:20:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Climate",
+        "Science",
+        "Delta Plan",
+        "Environment"
+      ]
+    },
+    {
+      "id": "art-bd-9",
+      "title": "Padma Bridge Rail Corridor Accelerates Southwest Freight Logistics and Trade",
+      "slug": "padma-bridge-rail-corridor-freight-logistics-regional-trade",
+      "summary": "Direct freight trains linking Dhaka with Mongla Port and Benapole Land Port reduce overland logistics transit times by over twelve hours.",
+      "content": "<p><strong>JASHORE &mdash;</strong> Commercial cargo trains running across the mega Padma Bridge rail link have transformed trade dynamics between the central industrial zone around Dhaka and southwestern border hubs.</p>\n<p>Agricultural commodities from Khulna and fish consignments from Satkhira now reach wholesale markets in Karwan Bazar within three to four hours, drastically curbing post-harvest spoilage.</p>\n<p>Business chambers in Faridpur and Barishal have expressed optimism that direct rail access will spur industrial parks, food processing plants, and light engineering clusters throughout the previously isolated delta districts.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-0",
+      "categoryName": "Bangladesh",
+      "categorySlug": "bangladesh",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 17800,
+      "publishedAt": "2026-10-09T12:00:00.000Z",
+      "createdAt": "2026-10-09T11:00:00.000Z",
+      "updatedAt": "2026-10-09T12:00:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Padma Bridge",
+        "Rail",
+        "Trade",
+        "Infrastructure"
+      ]
+    },
+    {
+      "id": "art-bd-10",
+      "title": "Bangladesh Women's Cricket Team Dominates Regional Series with Record Bowling Spell",
+      "slug": "bangladesh-womens-cricket-team-dominates-regional-series",
+      "summary": "A disciplined spin attack and clinical run-chase in Mirpur seals a dominant series victory, drawing enthusiastic praise across international cricket media.",
+      "content": "<p><strong>DHAKA &mdash;</strong> In a commanding all-round display at the Sher-e-Bangla National Cricket Stadium, the Bangladesh Women's National Cricket team routed their opponents by eight wickets to clinch the bilateral white-ball trophy.</p>\n<p>The Tigresses restricted the visitors to an under-par total through economical bowling by their front-line spinners, before the top order effortlessly knocked off the target with sixteen overs to spare.</p>\n<p>The triumph marks another chapter in the growing stature of women's athletics in Bangladesh, earning congratulations from both the interim sports adviser and the cricket fraternity.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1531415074868-036b1c57e3b0?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-6",
+      "categoryName": "Sports",
+      "categorySlug": "sports",
+      "authorId": "u-5",
+      "authorName": "Tanvir Ahmed",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 14200,
+      "publishedAt": "2026-10-09T10:00:00.000Z",
+      "createdAt": "2026-10-09T09:00:00.000Z",
+      "updatedAt": "2026-10-09T10:00:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Cricket",
+        "Tigers",
+        "Sports",
+        "Women in Sports"
+      ]
+    },
+    {
+      "id": "art-bd-11",
+      "title": "Agricultural Researchers in Gazipur Develop High-Yield Salt-Tolerant Rice Strains",
+      "slug": "agricultural-researchers-gazipur-salt-tolerant-rice-strains",
+      "summary": "Breakthrough crop varieties permit farmers in cyclone-prone southern delta districts to double winter harvest yields despite high soil salinity.",
+      "content": "<p><strong>GAZIPUR &mdash;</strong> Agronomists at the Bangladesh Rice Research Institute (BRRI) have patented two climate-resilient paddy varieties engineered to thrive in coastal fields with elevated salt concentrations.</p>\n<p>Field trials conducted across Patuakhali and Bagerhat demonstrated harvest yields exceeding five metric tons per hectare, offering an essential buffer against soil degradation caused by periodic cyclonic sea inundation.</p>\n<p>The Ministry of Agriculture has initiated nationwide seed distribution to ensure that coastal farming cooperatives can plant the new varieties before the upcoming Boro season.</p>",
+      "coverImage": "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=1200&q=80",
+      "categoryId": "cat-5",
+      "categoryName": "Science",
+      "categorySlug": "science",
+      "authorId": "u-6",
+      "authorName": "Nusrat Jahan",
+      "status": "PUBLISHED",
+      "featured": false,
+      "breaking": false,
+      "views": 11800,
+      "publishedAt": "2026-10-09T08:30:00.000Z",
+      "createdAt": "2026-10-09T07:30:00.000Z",
+      "updatedAt": "2026-10-09T08:30:00.000Z",
+      "tags": [
+        "Bangladesh",
+        "Agriculture",
+        "Science",
+        "Innovation",
+        "Food Security"
+      ]
+    },
+    {
       "id": "art-1",
       "title": "Historic Peace Treaty Signed as Border Talks Conclude After Decades of Conflict",
       "slug": "historic-peace-treaty-signed-border-talks-conclude",
@@ -180,16 +506,17 @@
       "authorId": "u-1",
       "authorName": "Admin Chief",
       "status": "PUBLISHED",
-      "featured": true,
+      "featured": false,
       "breaking": false,
       "views": 14250,
       "publishedAt": "2026-10-07T08:15:00.000Z",
       "createdAt": "2026-10-07T07:00:00.000Z",
       "updatedAt": "2026-10-07T08:15:00.000Z",
       "tags": [
+        "World",
         "Breaking News",
         "Diplomacy",
-        "Climate Summit"
+        "Peace"
       ]
     },
     {
@@ -212,6 +539,7 @@
       "createdAt": "2026-10-07T06:00:00.000Z",
       "updatedAt": "2026-10-07T07:30:00.000Z",
       "tags": [
+        "Politics",
         "Human Rights",
         "Artificial Intelligence"
       ]
@@ -236,8 +564,10 @@
       "createdAt": "2026-10-07T05:00:00.000Z",
       "updatedAt": "2026-10-07T06:45:00.000Z",
       "tags": [
-        "Artificial Intelligence",
-        "Climate Summit"
+        "Tech",
+        "Energy",
+        "Science",
+        "Innovation"
       ]
     },
     {
@@ -260,7 +590,9 @@
       "createdAt": "2026-10-07T06:30:00.000Z",
       "updatedAt": "2026-10-07T08:00:00.000Z",
       "tags": [
-        "Economy"
+        "Business",
+        "Economy",
+        "Markets"
       ]
     },
     {
@@ -276,14 +608,16 @@
       "authorId": "u-1",
       "authorName": "Admin Chief",
       "status": "PUBLISHED",
-      "featured": true,
+      "featured": false,
       "breaking": false,
       "views": 12400,
       "publishedAt": "2026-10-07T03:00:00.000Z",
       "createdAt": "2026-10-07T02:00:00.000Z",
       "updatedAt": "2026-10-07T03:00:00.000Z",
       "tags": [
-        "Climate Summit"
+        "Science",
+        "Biodiversity",
+        "Environment"
       ]
     },
     {
@@ -305,7 +639,11 @@
       "publishedAt": "2026-10-07T04:10:00.000Z",
       "createdAt": "2026-10-07T03:00:00.000Z",
       "updatedAt": "2026-10-07T04:10:00.000Z",
-      "tags": []
+      "tags": [
+        "Sports",
+        "Football",
+        "Championship"
+      ]
     },
     {
       "id": "art-7",
@@ -375,40 +713,6 @@
       "userName": "Elena Rostova",
       "createdAt": "2026-10-07T08:30:00.000Z",
       "details": "Submitted article 'Offshore Financial Flows' for REVIEW"
-    }
-  ],
-  "users": [
-    {
-      "id": "u-1",
-      "name": "Admin Chief",
-      "email": "admin@example.com",
-      "role": "ADMIN",
-      "active": true,
-      "createdAt": "2026-10-07T08:00:00.000Z"
-    },
-    {
-      "id": "u-2",
-      "name": "Elena Rostova",
-      "email": "editor@example.com",
-      "role": "EDITOR",
-      "active": true,
-      "createdAt": "2026-10-07T08:00:00.000Z"
-    },
-    {
-      "id": "u-3",
-      "name": "Marcus Chen",
-      "email": "author@example.com",
-      "role": "AUTHOR",
-      "active": true,
-      "createdAt": "2026-10-07T08:00:00.000Z"
-    },
-    {
-      "id": "u-4",
-      "name": "Sarah Writer",
-      "email": "writer@example.com",
-      "role": "WRITER",
-      "active": true,
-      "createdAt": "2026-10-07T08:00:00.000Z"
     }
   ]
 }

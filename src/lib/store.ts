@@ -112,6 +112,7 @@ function getDefaultState(): DatabaseState {
       newsletterDescription: "Get essential global analysis delivered to your inbox every dawn.",
     },
     categories: [
+      { id: "cat-0", name: "Bangladesh", slug: "bangladesh", description: "National affairs, political reforms, economic developments, and cultural reporting from Bangladesh", order: 0 },
       { id: "cat-1", name: "World", slug: "world", description: "Global geopolitical affairs, diplomacy, and international reporting", order: 1 },
       { id: "cat-2", name: "Politics", slug: "politics", description: "Government, elections, legislation, and civil rights", order: 2 },
       { id: "cat-3", name: "Business", slug: "business", description: "Global markets, finance, trade, and economic developments", order: 3 },

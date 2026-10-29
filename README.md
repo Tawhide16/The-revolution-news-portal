@@ -19,9 +19,19 @@
 
 ---
 
+## 🔐 Admin Access
+
+- Email: `admin@example.com`
+- Password: `change_me_first_login`
+- Fallback admin password: `admin123`
+
+> Use these credentials for the admin login at `/admin`.
+
+---
+
 ## 🌟 Highlights
 
-- **Broadsheet Editorial Aesthetics**: Inspired by premier news institutions (BBC, The Guardian, NYT) with bold serif typography, high-contrast black/red/white palettes, and dynamic editorial grids.
+- **Broadsheet Editorial Aesthetics**: Inspired by premier news institutions (BBC, The Guardian, NYT) with bold serif typography, high-contrast black/red/white palettes, and dynamic editorial grid.
 - **Role-Based Access Control (RBAC)**: Complete separation of powers between **Admin**, **Editor**, and **Writer** roles.
 - **Editorial Approval Pipeline**: Stories drafted by Writers are held in a `REVIEW` queue until approved and published live by an **Admin**.
 - **Multi-Layout Publishing Engine**: Writers and Admins can choose between 4 bespoke layouts (`Standard`, `Hero Banner`, `Two-Column`, and `Minimalist`).
@@ -40,7 +50,7 @@
 | **Language** | [TypeScript](https://www.typescriptlang.org/) (Strict type-safety) |
 | **Styling** | [Tailwind CSS](https://tailwindcss.com/) with `@tailwindcss/typography` |
 | **Database** | [PostgreSQL](https://www.postgresql.org/) / [Neon Serverless Postgres](https://neon.tech/) |
-| **ORM** | [Prisma ORM 5](https://www.prisma.io/) (`@prisma/client`) |
+| **ORM** | [Prisma ORM 5](https://prisma.io/) (`@prisma/client`) |
 | **Authentication** | [NextAuth.js](https://next-auth.js.org/) (JWT session strategy & credentials provider) |
 | **Icons** | [Lucide React](https://lucide.dev/) |
 | **Rich Text** | HTML formatting tools & inline media figure parser |
